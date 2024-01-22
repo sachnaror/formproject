@@ -24,6 +24,6 @@ def register(request):
     return render(request, 'register.html')
 
 
-# def success(request):
-#     # Define your success page view
-#     return HttpResponse("Registration successful!")
+def success():
+    # Define your success page view
+    return HttpResponse("Registration successful!")
