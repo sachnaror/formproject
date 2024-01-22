@@ -1,7 +1,6 @@
-from django.contrib.auth.hashers import check_password
+
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.template import loader
 
 from .models import UserRegistration
 
@@ -25,6 +24,6 @@ def register(request):
     return render(request, 'register.html')
 
 
-def success(request):
-    # Define your success page view
-    return HttpResponse("Registration successful!")
+# def success(request):
+#     # Define your success page view
+#     return HttpResponse("Registration successful!")
