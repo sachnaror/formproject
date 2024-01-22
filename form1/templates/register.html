@@ -1,3 +1,6 @@
+{% load bootstrap5 %} // Add this line to import the necessary template tags
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,18 +11,24 @@
 
   <!-- Registration Form -->
   <div class="width-60">
-    <form method="post" action="{% url 'register' %}">
-      {% csrf_token %}
-      <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-      </div>
-      <button type="submit" class="btn btn-primary">Register</button>
-    </form>
+
+    {% load bootstrap5 %}
+
+    {% bootstrap_form form %}
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
   </div>
 
   <!-- Existing body content here -->

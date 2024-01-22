@@ -21,7 +21,7 @@ def register(request):
         # Redirect to a success page or login page
         return redirect('tab1')
 
-    return render(request, 'register.html')
+    return render(request, 'tab1.html')
 
 
 def success():
