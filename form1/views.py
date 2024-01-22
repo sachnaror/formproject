@@ -2,27 +2,26 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
+
 from .models import UserRegistration
+from .forms import UserRegistrationForm
+
 
 
 def register(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
 
-        # Check if email already exists
-        if UserRegistration.objects.filter(email=email).exists():
-            return HttpResponse("This email is already registered.")
+            # Your registration logic here
 
-        # Create new user
-        new_user = UserRegistration(email=email, password=password)
-        new_user.save()
+            return redirect('tab1')  # Replace 'tab1' with the actual URL name
+    else:
+        form = UserRegistrationForm()
 
-        # Redirect to a success page or login page
-        return redirect('tab1')
-
-    return render(request, 'tab1.html')
-
+    return render(request, 'tab1.html', {'form': form})
 
 def success():
     # Define your success page view
