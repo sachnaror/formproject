@@ -56,6 +56,10 @@ button {
   width: 430px;
 }
 
+.logout {
+  float: right;
+  margin-right: 18px;
+}
 .form-switch .form-check-input:checked {
   background-color: black;
   border-color: #30d158;
