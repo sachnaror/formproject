@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap");
+
+html,
+body {
+  font-family: "Inter", sans-serif;
+  width: calc(100%);
+}
+
+button {
+  border-radius: 0 !important;
+}
+
+.bg-blue-100 {
+  background-color: #dbeafe;
+}
+
+.bg-blue-200 {
+  background-color: #bfdbfe;
+}
+
+.bg-yellow {
+  background-color: #fde68a;
+}
+
+.bg-green {
+  background-color: #bbf7d0;
+}
+
+.nav-padding {
+  padding-left: 147px;
+}
+
+.grid {
+  display: flex;
+  margin: 19px;
+  gap: 24px;
+}
+
+.width-10 {
+  width: 10%;
+}
+
+.width-60 {
+  width: 55%;
+}
+
+.width-30 {
+  width: 35%;
+}
+
+.width-200 {
+  width: 200px;
+}
+
+.textarea-width {
+  width: 430px;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: black;
+  border-color: #30d158;
+}
+
+.border-custom {
+  border: 1px solid #94a3b8;
+}
+
+.border-radius {
+  border-radius: 0 !important;
+}
+
+.star-checked {
+  color: orange;
+}
+
+.tab-custom-style {
+  margin-top: 63px;
+  height: calc(100% - 125px);
+}
+
+.tab-active {
+  font-size: 20px;
+  font-weight: 800px;
+  color: #db298c;
+}
+
+.tab-normal {
+  font-size: 20px;
+  font-weight: normal;
+  color: #64748b;
+}
+
+.placeicon {
+  font-family: fontawesome;
+}
+
+.custom-control-label::before {
+  background-color: #dee2e6;
+  border: #dee2e6;
+}
+
+/* login form icons */
+
+.placeicon {
+  font-family: fontawesome;
+}
+
+.custom-control-label::before {
+  background-color: #dee2e6;
+  border: #dee2e6;
+}
+
+/* forget password */
+
+.bg-grey {
+  background: #eee;
+}
+.forgot {
+  background-color: #fff;
+  padding: 12px;
+  border: 1px solid #dfdfdf;
+}
+
+.padding-bottom-3x {
+  padding-bottom: 72px !important;
+}
+
+.card-footer {
+  background-color: #fff;
+}
+
+.btn {
+  font-size: 13px;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #76b7e9;
+  outline: 0;
+  box-shadow: 0 0 0 0px #28a745;
+}
