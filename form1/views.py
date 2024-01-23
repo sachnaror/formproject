@@ -15,6 +15,10 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
+        if not email:
+            messages.error(request, "Email is required.")
+            return render(request, 'register.html')
+
         if User.objects.filter(email=email).exists():
             messages.error(request, "This email is already registered.")
             return render(request, 'register.html')
@@ -36,8 +40,12 @@ def login(request):
         return redirect('tab1')  # Redirect if already authenticated
 
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if not email:
+            messages.error(request, "Email is required.")
+            return render(request, 'login.html')
 
         user = authenticate(request, username=email, password=password)
 
