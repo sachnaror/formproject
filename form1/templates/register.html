@@ -21,16 +21,16 @@
     <title>Register</title>
   </head>
   <body>
+    <form method="POST" action="{% url 'tab1' %}">
+      {% csrf_token %}
 
-    {% csrf_token %}
 
       <div
         class="bg-info d-flex align-items-center justify-content-center"
         style="height: 100vh"
       >
 
-      <form method="POST" action="{% url 'tab1' %}">
-        {% csrf_token %}
+
 
         <!-- Container containing all contents -->
         <div class="container" >
@@ -188,7 +188,7 @@
             </div>
           </div>
         </div>
-      </form>
+
       </div>
     </form>
   </body>
