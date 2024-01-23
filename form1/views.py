@@ -2,60 +2,60 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
-
-from .models import UserRegistration
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('tab1')  # Redirect if already authenticated
+
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        # Check if email already exists
-        if UserRegistration.objects.filter(email=email).exists():
-            return HttpResponse("This email is already registered.")
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "This email is already registered.")
+            return render(request, 'register.html')
 
-        # Create a new user if it doesn't exist
-        user = UserRegistration.objects.create(email=email, password=password)
-        user.save()
+        try:
+            user = User.objects.create_user(
+                username=email, email=email, password=password)
+            user.save()
+            auth_login(request, user)
+            return redirect('tab1')
+        except ValidationError as e:
+            messages.error(request, e)
 
-        # Set success in session and Redirect to tab1
-        request.session['success'] = True
-        return redirect('tab1')
-
-    return render(request, 'register.html')  # Render registration page
+    return render(request, 'register.html')
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('tab1')  # Redirect if already authenticated
+
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
 
-        # Check if user exists
-        user = authenticate(username=email, password=password)
+        user = authenticate(request, username=email, password=password)
 
         if user is not None:
             auth_login(request, user)
-            request.session['success'] = True  # Set success in session
-            return redirect('tab1')  # Redirect to tab1.html
+            return redirect('tab1')
         else:
             messages.error(request, 'Wrong credentials')
 
-    return render(request, 'login.html')  # Render login page
+    return render(request, 'login.html')
 
 
+@login_required(redirect_field_name='login')
 def tab1(request):
-    # Check if user is authenticated and session success is True
-    if not request.session.get('success', False):
-        return redirect('login')  # Redirect to login page if not authenticated
-
-    # Add your code to render tab1 here
     return render(request, 'tab1.html')
 
 
 def logout(request):
     auth_logout(request)
-    request.session['success'] = False  # Clear success in session
     return redirect('login')
