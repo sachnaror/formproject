@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
@@ -51,9 +50,12 @@ def login(request):
     return render(request, 'login.html')
 
 
-@login_required(redirect_field_name='login')
 def tab1(request):
-    return render(request, 'tab1.html')
+    # You can add any additional context data here
+    context = {}
+    context['email'] = ''
+    # Render the 'tab1.html' template with the context data
+    return render(request, 'tab1.html', context)
 
 
 def logout(request):
