@@ -1,5 +1,4 @@
 
-import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -14,6 +13,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# AUTH_USER_MODEL = 'form1.CustomUser'
 
 # Application definition
 
@@ -28,6 +28,18 @@ INSTALLED_APPS = [
     # 'whitenoise',
     # 'bootstrap5',
 ]
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'form1',
+        'USER': 'mona',
+        'PASSWORD': 'lisa',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,12 +74,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'formproject.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
