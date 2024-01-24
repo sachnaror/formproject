@@ -13,7 +13,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# AUTH_USER_MODEL = 'form1.CustomUser'
+# AUTH_USER_MODEL = 'form1.customuser'
 
 # Application definition
 

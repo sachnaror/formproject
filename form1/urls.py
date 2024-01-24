@@ -3,12 +3,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # path('', RedirectView.as_view(url='templates/register.html',
+    #                               permanent=True)),
+    path('', views.register, name='register'),
+    # path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
     path('tab1/', views.tab1, name='tab1'),
-    # Uncommented and corrected the view function name
-    # path('form1/forgotPassword/', views.forgot_password, name='forgotPassword'),
-    # path('logout/', views.logout, name='login'),
+    path('form1/', views.register, name='register'),
+    path('form1/register/', views.register, name='register'),
 
-    # Other paths...
+    # Redirect root URL
+    # path('form1/', include('form1.urls')),  # Include form1 app's URLs
 ]

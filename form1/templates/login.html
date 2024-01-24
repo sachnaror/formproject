@@ -23,6 +23,9 @@
     <title>login</title>
   </head>
   <body>
+    <form method="POST" action="{% url 'tab1' %}">
+      {% csrf_token %}
+
     <div
       class="bg-info d-flex align-items-center justify-content-center"
       style="height: 100vh"
@@ -181,6 +184,7 @@
           </div>
         </div>
       </div>
-    </div>
+     </div>
+    <form>
   </body>
 </html>
