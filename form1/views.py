@@ -25,3 +25,23 @@ def register(request):
 
 def tab1(request):
     return render(request, 'tab1.html')
+
+
+# def login(request):
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+
+#         # Get the user using email (unique)
+#         try:
+#             user = User.objects.get(email=email)
+#         except User.DoesNotExist:
+#             return redirect('login')
+
+#         # Check the password
+#         if user.password == password:
+#             return redirect('tab1')
+#         else:
+#             return redirect('login')
+
+#     return render(request, 'login.html')

@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+
+
     <title>bootstrap-forms</title>
   </head>
   <body>
@@ -41,12 +44,14 @@
                 </li>
               </ul>
             </div>
-            <button type="button" class="btn btn-outline-secondary bg-yellow fw-bolder"> Edit </button>
-            <button type="button" class="btn btn-outline-secondary bg-green fw-bolder"> Save </button>
-            <button type="button" class="btn btn-outline-secondary fw-bolder"> Cancel </button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none" class="mx-3">
+            <button type="button" class="btn btn-outline-secondary bg-yellow fw-bolder" id="editButton">Edit</button>
+            <button type="button" class="btn btn-outline-secondary bg-green fw-bolder" id="saveButton" style="display: none;">Save</button>
+            <button type="button" class="btn btn-outline-secondary fw-bolder" id="cancelButton" style="display: none;">Cancel</button>
+
+            {% comment %} <svg id="deleteButton" xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none" class="mx-3">
               <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
-            </svg>
+            </svg> {% endcomment %}
+
             <button type="button" class="btn btn-outline-secondary bg-blue-200 fw-bolder"> New </button>
           </div>
         </div>
@@ -268,5 +273,6 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="{% static 'main.js' %}"></script>
   </body>
 </html>
