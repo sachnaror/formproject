@@ -52,11 +52,12 @@ def login(request):
 
 
 def tab_one(request):
+    # For POST requests, handle form submission
     if request.method == 'POST':
         digit = request.POST.get('digit')
         name = request.POST.get('text')
 
-        # Validation (optional, but recommended)
+        # Validation
         if not digit or not name:
             return HttpResponse("Invalid input", status=400)
 
@@ -66,14 +67,20 @@ def tab_one(request):
             return HttpResponse("Invalid digit", status=400)
 
         # Create and save the new TabOne instance
+        # Replace 'TabOne' with your actual model class
         tab_one_instance = tab_one(digit=digit, text=name)
         tab_one_instance.save()
 
         # Redirect after saving
         return redirect('thanks')
 
-    # Render form for GET requests
-    return render(request, 'tab1.html')
+    # For GET requests, render the form
+    else:
+        context = {
+            'email': request.user.email,
+
+        }
+        return render(request, 'tab1.html', context)
 
 
 def thanks(request):

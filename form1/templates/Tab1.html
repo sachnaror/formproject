@@ -13,7 +13,7 @@
 
   <body>
     <form  method="post" action="{% url 'thanks' %}"> {% csrf_token %}
-    <nav class="bg-blue-100 fs-6 nav-padding py-3"> schnaror@gmail.com (GH: 3242)
+    <nav class="bg-blue-100 fs-6 nav-padding py-3"> {{ form1_user.email }} (GH: {{ id }})
       {% comment %} <button class="btn btn-outline-secondary bg-red fw-bolder ms-auto logout">Logout</button> {% endcomment %}
       <a href="{% url 'login' %}" class="btn btn-outline-secondary bg-red fw-bolder ms-auto logout">Logout</a>
 
