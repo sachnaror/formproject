@@ -14,6 +14,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # AUTH_USER_MODEL = 'form1.customuser'
+# AUTH_USER_MODEL = 'form1.User'
+
 
 # Application definition
 
@@ -25,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'form1',
+    # 'django_countries'
     # 'whitenoise',
     # 'bootstrap5',
 ]
@@ -48,7 +51,9 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    # 'django.contrib.auth.models.User',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     # 'whitenoise.middleware.WhiteNoiseMiddleware',
 
 ]

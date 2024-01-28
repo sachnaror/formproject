@@ -1,15 +1,4 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css" />
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <title>Register</title>
-  </head>
+{% include "head.html" with title="register page" %}
   <body>
     <form method="post"> {% csrf_token %} <div class="bg-info d-flex align-items-center justify-content-center" style="height: 100vh">
         <!-- Container containing all contents -->
@@ -113,13 +102,13 @@
                   <div class="pt-2">
                     <div class="row justify-content-center">
                       <h5> Don't have an Account? <span>
-                          <a href="#" class="text-danger"> Login Now!</a>
+                          <a href="{% url 'login' %}" class="text-danger"> Login Now!</a>
                         </span>
                       </h5>
                     </div>
                     <div class="row justify-content-center align-items-center pt-4 pb-5">
                       <div class="col-4">
-                        <a href="#" class="btn btn-block btn-info"> Login </a>
+                        <a href="{% url 'login' %}" class="btn btn-block btn-info"> Login </a>
                       </div>
                     </div>
                   </div>

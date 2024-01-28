@@ -7,3 +7,12 @@ class User(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class tab_one(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    digit = models.IntegerField()
+    name = models.TextField()
+
+    def __str__(self):
+        return self.name

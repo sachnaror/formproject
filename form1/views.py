@@ -1,20 +1,18 @@
 
 
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .models import User
+from .models import User, tab_one
 
 
 def register(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-
-        # Hash the password using make_password
-        # hashed_password = make_password(password)
-
-        # Create and save the user
-        # Use the hashed password
         user = User(email=email, password=password)
         user.save()
 
@@ -27,21 +25,56 @@ def tab1(request):
     return render(request, 'tab1.html')
 
 
-# def login(request):
-#     if request.method == 'POST':
-#         email = request.POST.get('email')
-#         password = request.POST.get('password')
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login.html')
 
-#         # Get the user using email (unique)
-#         try:
-#             user = User.objects.get(email=email)
-#         except User.DoesNotExist:
-#             return redirect('login')
 
-#         # Check the password
-#         if user.password == password:
-#             return redirect('tab1')
-#         else:
-#             return redirect('login')
+def login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
-#     return render(request, 'login.html')
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, "User doesn't exist")
+            return redirect('login')
+
+        if user.password == password:
+            return redirect('tab1')
+        else:
+            messages.error(request, "Incorrect password")
+            return redirect('login')
+
+    return render(request, 'login.html')
+
+
+def tab_one(request):
+    if request.method == 'POST':
+        digit = request.POST.get('digit')
+        name = request.POST.get('text')
+
+        # Validation (optional, but recommended)
+        if not digit or not name:
+            return HttpResponse("Invalid input", status=400)
+
+        try:
+            digit = int(digit)
+        except ValueError:
+            return HttpResponse("Invalid digit", status=400)
+
+        # Create and save the new TabOne instance
+        tab_one_instance = tab_one(digit=digit, text=name)
+        tab_one_instance.save()
+
+        # Redirect after saving
+        return redirect('thanks')
+
+    # Render form for GET requests
+    return render(request, 'tab1.html')
+
+
+def thanks(request):
+    return render(request, 'thanks.html')
