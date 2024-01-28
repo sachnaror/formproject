@@ -68,7 +68,7 @@ def tab_one(request):
 
         # Create and save the new TabOne instance
         # Replace 'TabOne' with your actual model class
-        tab_one_instance = tab_one(digit=digit, text=name)
+        tab_one_instance = tab_one_model(digit=digit, text=name)
         tab_one_instance.save()
 
         # Redirect after saving
