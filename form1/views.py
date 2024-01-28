@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .models import User, tab_one
+from .models import User, tab_one_model
 
 
 def register(request):
@@ -76,11 +76,8 @@ def tab_one(request):
 
     # For GET requests, render the form
     else:
-        context = {
-            'email': request.user.email,
 
-        }
-        return render(request, 'tab1.html', context)
+        return render(request, 'tab1.html')
 
 
 def thanks(request):
