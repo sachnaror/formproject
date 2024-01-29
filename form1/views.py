@@ -1,10 +1,14 @@
 
 
+import json
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from .models import User, tab_one_model
 
@@ -64,7 +68,7 @@ def tab_one(request):
         name = request.POST.get('name')
         country = request.POST.get('country')
         city = request.POST.get('city')
-
+        # rating = request.POST.get('rating')
         # Validation
         if not digit or not name:
             return HttpResponse("Invalid input", status=400)
@@ -101,3 +105,18 @@ def tab_one(request):
 
 def thanks(request):
     return render(request, 'thanks.html')
+
+
+@require_POST
+@csrf_exempt
+def save_rating(request):
+    data = json.loads(request.body)
+    rating = data.get('rating')
+
+    # Assuming you have a way to identify the specific object being rated
+    object_id = ...  # Get this from the request or context
+    obj = tab_one_model.objects.get(id=object_id)
+    obj.rating = rating
+    obj.save()
+
+    return JsonResponse({'status': 'success', 'rating': rating})

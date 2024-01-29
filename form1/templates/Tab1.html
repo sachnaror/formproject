@@ -39,25 +39,22 @@
             <div class="dropdown d-inline">
               <button class="btn btn-outline-secondary dropdown-toggle custom-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> Select ID </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li>
-                  <a class="dropdown-item" href="#" onclick="updateDropdown('1')">1</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" onclick="updateDropdown('2')">2</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" onclick="updateDropdown('3')">3</a>
-                </li>
+                  <li>
+                      <a class="dropdown-item" href="#" onclick="selectDropdownItem('1')">1</a>
+                  </li>
+                  <li>
+                      <a class="dropdown-item" href="#" onclick="selectDropdownItem('2')">2</a>
+                  </li>
+                  <li>
+                      <a class="dropdown-item" href="#" onclick="selectDropdownItem('3')">3</a>
+                  </li>
               </ul>
-            </div>
-            <script>
-              function updateDropdown(value) {
-                document.getElementById('dropdownMenuButton1').innerText = value;
-              }
-            </script>
-            <button type="button" class="btn btn-outline-secondary bg-yellow fw-bolder" id="editButton">Edit</button>
-            <button type="button" class="btn btn-outline-secondary bg-green fw-bolder" id="saveButton" style="display: none;">Save</button>
-            <button type="button" class="btn btn-outline-secondary fw-bolder" id="cancelButton" style="display: none;">Cancel</button>
+          </div>
+
+          <button type="button" class="btn btn-outline-secondary bg-yellow fw-bolder" id="editButton">Edit</button>
+          <button type="button" class="btn btn-outline-secondary bg-green fw-bolder" id="saveButton" style="display: none;">Save</button>
+          <button type="button" class="btn btn-outline-secondary fw-bolder" id="cancelButton" style="display: none;">Cancel</button>
+
 
             {% comment %} <svg id="deleteButton" xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none" class="mx-3">
               <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
@@ -101,12 +98,12 @@
                     Select City
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    <li><a class="dropdown-item" href="#">Delhi</a></li>
-                    <li><a class="dropdown-item" href="#">Gurgaon</a></li>
-                    <li><a class="dropdown-item" href="#">Bangalore</a></li>
+                    <li><a class="dropdown-item" name="Delhi">Delhi</a></li>
+                    <li><a class="dropdown-item" name="Gurgaon">Gurgaon</a></li>
+                    <li><a class="dropdown-item" name="Bangalore">Bangalore</a></li>
                 </ul>
             </div>
-            <div id="idlHelp" class="form-text text-danger">Error message</div>
+            {% comment %} <div id="idlHelp" class="form-text text-danger">Error message</div> {% endcomment %}
         </div>
 
         <script>
@@ -114,25 +111,72 @@
           document.querySelectorAll('.dropdown-menu a').forEach(item => {
               item.addEventListener('click', function (e) {
                   e.preventDefault(); // Prevent the default anchor behavior
-                  var selectedCity = this.textContent; // Get the text of the selected item
+                  var selectedCity = this.getAttribute('data-value'); // Get the value of the selected item
                   var dropdownButton = document.getElementById('dropdownMenuButton2');
-                  dropdownButton.textContent = selectedCity; // Change the button text to the selected item
+                  dropdownButton.textContent = this.textContent; // Change the button text to the selected item
+
+                  // Update the hidden input field
+                  document.getElementById('hiddenCityInput').value = selectedCity;
               });
           });
       </script>
 
 
-          <div class="mb-5">
-            <div class="d-flex gap-3">
-              <p class="fw-bolder">Star Rating</p>
-              <div id="idlHelp" class="form-text text-danger"> Error message </div>
-            </div>
-            <span class="fa fa-star star-checked"></span>
-            <span class="fa fa-star star-checked"></span>
-            <span class="fa fa-star star-checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-          </div>
+
+
+      <div class="mb-5">
+        <div class="d-flex gap-3">
+            <p class="fw-bolder" name="rating">Star Rating</p>
+            <div id="ratingid" class="form-text text-danger"> Error message </div>
+        </div>
+        <span class="fa fa-star" name="1" onclick="setRating(1)"></span>
+        <span class="fa fa-star" name="2" onclick="setRating(2)"></span>
+        <span class="fa fa-star" name="3" onclick="setRating(3)"></span>
+        <span class="fa fa-star" name="4" onclick="setRating(4)"></span>
+        <span class="fa fa-star" name="5" onclick="setRating(5)"></span>
+    </div>
+
+
+
+    <script>
+      function setRating(rating) {
+          // Update the stars visually
+          for (let i = 1; i <= 5; i++) {
+              const star = document.querySelector(`.fa-star:nth-child(${i})`);
+              star.classList.toggle('star-checked', i <= rating);
+          }
+
+          // Send the rating to the server
+          fetch('/form1/views/save_rating', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': getCookie('csrftoken')
+              },
+              body: JSON.stringify({rating: rating})
+          }).then(response => response.json()).then(data => {
+              console.log(data); // Process server response
+          });
+      }
+
+      function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+  </script>
+
+
+
           <div class="mb-5">
             <div class="d-flex gap-5">
               <div class="me-5">

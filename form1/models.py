@@ -11,17 +11,20 @@ class User(models.Model):
 
 
 class tab_one_model(models.Model):
-
     digit = models.IntegerField(null=False, validators=[
                                 MaxValueValidator(10000000)])
-    name = models.TextField(null=False)
-    country = models.TextField(null=False)
-    CITY_CHOICES = [
-        ('Delhi', 'Delhi'),
-        ('Gurugram', 'Gurugram'),
-        ('Bangalore', 'Bangalore'),
-    ]
-    city = models.CharField(max_length=100, choices=CITY_CHOICES, null=False)
+    # Provide a default value
+    name = models.TextField(null=False, default='none')
+    country = models.TextField(null=True)
 
-    def __str__(self):
-        return f'{self.digit}'
+    CITY_CHOICES = [
+        ('none', 'None'),  # Adding default value as a choice
+        ('Delhi', 'Delhi'),
+        ('Gurgaon', 'Gurgaon'),  # cSpell:ignore
+        ('Bangalore', 'Bangalore'),  # cSpell:ignore
+    ]
+    city = models.CharField(
+        # Setting default value
+        max_length=100, choices=CITY_CHOICES, null=True, default='none')
+
+    rating = models.IntegerField(default=0)
