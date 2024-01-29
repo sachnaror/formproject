@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     # path('', RedirectView.as_view(url='templates/register.html',
     #                               permanent=True)),
-    path('', views.register, name='register'),
+    path('', views.login, name='login'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
     path('tab1/', views.tab_one, name='tab1'),

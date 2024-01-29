@@ -1,10 +1,15 @@
 
 
+from collections import UserDict
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.sessions.models import \
+    Session  # Import Session from django.contrib.sessions.models
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from requests import session
 
 from .models import User, tab_one_model
 
@@ -13,6 +18,7 @@ def register(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+
         user = User(email=email, password=password)
         user.save()
 
@@ -43,6 +49,11 @@ def login(request):
             return redirect('login')
 
         if user.password == password:
+
+            # Save email and cookie in the context
+            request.session['email'] = email
+            request.session['id'] = user.id
+
             return redirect('tab1')
         else:
             messages.error(request, "Incorrect password")
@@ -55,7 +66,8 @@ def tab_one(request):
     # For POST requests, handle form submission
     if request.method == 'POST':
         digit = request.POST.get('digit')
-        name = request.POST.get('text')
+        name = request.POST.get('name')
+        country = request.POST.get('country')
 
         # Validation
         if not digit or not name:
@@ -68,7 +80,8 @@ def tab_one(request):
 
         # Create and save the new TabOne instance
         # Replace 'TabOne' with your actual model class
-        tab_one_instance = tab_one_model(digit=digit, text=name)
+        tab_one_instance = tab_one_model(
+            digit=digit, name=name, country=country)
         tab_one_instance.save()
 
         # Redirect after saving
@@ -76,8 +89,18 @@ def tab_one(request):
 
     # For GET requests, render the form
     else:
+        # Use request.session instead of session
+        user_id = request.session.get('id')
+        # Use request.session instead of session
+        user_email = request.session.get('email')
 
-        return render(request, 'tab1.html')
+        context = dict()
+        context['user_id'] = user_id
+        context['user_email'] = user_email
+
+        # print(user_id)
+        # print(user_email)
+        return render(request, 'tab1.html', context)
 
 
 def thanks(request):

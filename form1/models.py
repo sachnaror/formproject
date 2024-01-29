@@ -1,5 +1,4 @@
 from django.db import models
-from django.http import HttpResponse
 
 
 class User(models.Model):
@@ -11,15 +10,9 @@ class User(models.Model):
 
 
 class tab_one_model(models.Model):
-    def your_view(request):
-        response = HttpResponse("Your response content")
-
-        # Set the cookie
-        response.set_cookie('cookie_name', 'cookie_value')
-
-        return response
-    digit = models.IntegerField()
-    name = models.TextField()
+    digit = models.IntegerField(null=False)
+    name = models.TextField(null=False)
+    country = models.TextField(null=True)
 
     def __str__(self):
         return f'{self.digit}'
