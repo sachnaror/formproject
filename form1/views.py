@@ -1,15 +1,10 @@
 
 
-from collections import UserDict
-
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.sessions.models import \
-    Session  # Import Session from django.contrib.sessions.models
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from requests import session
 
 from .models import User, tab_one_model
 
@@ -68,6 +63,7 @@ def tab_one(request):
         digit = request.POST.get('digit')
         name = request.POST.get('name')
         country = request.POST.get('country')
+        city = request.POST.get('city')
 
         # Validation
         if not digit or not name:
@@ -81,7 +77,7 @@ def tab_one(request):
         # Create and save the new TabOne instance
         # Replace 'TabOne' with your actual model class
         tab_one_instance = tab_one_model(
-            digit=digit, name=name, country=country)
+            digit=digit, name=name, country=country, city=city)
         tab_one_instance.save()
 
         # Redirect after saving

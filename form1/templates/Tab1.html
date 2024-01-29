@@ -87,33 +87,41 @@
               {% comment %} <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="flexSwitch" checked />
               </div> {% endcomment %}
+
+          </div>
+        <div id="idlsdHelp" class="form-text text-danger">Error message</div>
           </div>
 
 
 
-
-
-        <div id="idlHelp" class="form-text text-danger">Error message</div>
-          </div>
-          <div class="mb-5">
-            <p class="fw-bolder"> City <span class="fw-normal"> (pre-filled, options will come from DB) </span>
-            </p>
-            <div class="dropdown d-inline">
-              <button class="btn btn-outline-secondary dropdown-toggle custom-dropdow width-200 text-start" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> Select ID </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li>
-                  <a class="dropdown-item" href="#">Action</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Another action</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
+        <div class="mb-5">
+            <p class="fw-bolder" name="city"> City <span class="fw-normal"> (fixed options from HTML page) </span></p>
+            <div class="dropdown d-inline w-150">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select City
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <li><a class="dropdown-item" href="#">Delhi</a></li>
+                    <li><a class="dropdown-item" href="#">Gurgaon</a></li>
+                    <li><a class="dropdown-item" href="#">Bangalore</a></li>
+                </ul>
             </div>
             <div id="idlHelp" class="form-text text-danger">Error message</div>
-          </div>
+        </div>
+
+        <script>
+          // Select the dropdown items
+          document.querySelectorAll('.dropdown-menu a').forEach(item => {
+              item.addEventListener('click', function (e) {
+                  e.preventDefault(); // Prevent the default anchor behavior
+                  var selectedCity = this.textContent; // Get the text of the selected item
+                  var dropdownButton = document.getElementById('dropdownMenuButton2');
+                  dropdownButton.textContent = selectedCity; // Change the button text to the selected item
+              });
+          });
+      </script>
+
+
           <div class="mb-5">
             <div class="d-flex gap-3">
               <p class="fw-bolder">Star Rating</p>
