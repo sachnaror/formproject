@@ -5,12 +5,13 @@ import json
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .models import User, tab_one_model
+from .models import RadioSelection, Rating, User, tab_one_model
 
 
 def register(request):
@@ -108,15 +109,37 @@ def thanks(request):
 
 
 @require_POST
-@csrf_exempt
 def save_rating(request):
-    data = json.loads(request.body)
-    rating = data.get('rating')
+    try:
+        data = json.loads(request.body)
+        rating_value = data.get('rating')
 
-    # Assuming you have a way to identify the specific object being rated
-    object_id = ...  # Get this from the request or context
-    obj = tab_one_model.objects.get(id=object_id)
-    obj.rating = rating
-    obj.save()
+        if rating_value is not None and 0 <= rating_value <= 5:
+            # Create a new Rating instance
+            rating = Rating(ratings=rating_value)
+            rating.full_clean()  # Validate the model instance
+            rating.save()
+            return JsonResponse({'status': 'success', 'rating': rating_value})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Invalid rating'})
 
-    return JsonResponse({'status': 'success', 'rating': rating})
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON data'})
+
+    except ValidationError as e:
+        # Catch any validation errors from the model
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+    except Exception as e:
+        # Catch any other unexpected errors
+        return JsonResponse({'status': 'error', 'message': 'An unexpected error occurred'})
+
+
+@require_POST
+def save_radio_selection(request):
+    selected_color = request.POST.get('color')
+    if selected_color in dict(RadioSelection.COLOR_CHOICES).keys():
+        RadioSelection.objects.create(color=selected_color)
+        return redirect('thanks')  # Redirect to a thank you page
+    else:
+        return render(request, 'tab1.html', {'error': 'Invalid selection'})

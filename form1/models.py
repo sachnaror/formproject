@@ -27,4 +27,26 @@ class tab_one_model(models.Model):
         # Setting default value
         max_length=100, choices=CITY_CHOICES, null=True, default='none')
 
-    rating = models.IntegerField(default=0)
+    def __str__(self):
+        return f"Digit: {self.digit}, Name: {self.name}, Country: {self.country}, City: {self.city}"
+
+
+class Rating(models.Model):
+    ratings = models.IntegerField(default=0, validators=[MaxValueValidator(5)])
+
+    def __str__(self):
+        return f"Rating: {self.ratings}"
+
+
+class RadioSelection(models.Model):
+    COLOR_CHOICES = [
+        ('none', 'None'),
+        ('red', 'Red'),
+        ('green', 'Green'),
+        ('blue', 'Blue'),
+    ]
+    color = models.CharField(
+        max_length=5, choices=COLOR_CHOICES, null=True, default='none')
+
+    def __str__(self):
+        return f"Selected color: {self.color}"
