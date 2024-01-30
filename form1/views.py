@@ -5,10 +5,10 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .models import tab_one_model  # Replace with the correct import path
-from .models import User
+from .models import User, tab_one_model
 
 # from django.views.decorators.csrf import csrf_exempt
 
@@ -63,6 +63,15 @@ def login(request):
 
 def tab_one(request):
     if request.method == 'POST':
+
+        user_id = request.session.get('id')
+        user_email = request.session.get('email')
+
+        context = {
+            'user_id': user_id,
+            'user_email': user_email
+        }
+
         try:
             digit = request.POST.get('digit')
             if digit is None:
@@ -74,21 +83,11 @@ def tab_one(request):
             city = request.POST.get('city')
             color = request.POST.get('color')
             ratings = request.POST.get('ratings')
-            if ratings is None:
-                raise ValueError("Ratings is required")
-
-            ratings = int(ratings)
 
             # Retrieve checkbox values
             check1 = request.POST.get('check1') == 'on'
             check2 = request.POST.get('check2') == 'on'
             check3 = request.POST.get('check3') == 'on'
-
-            # Validate digit and ratings
-            MaxValueValidator(10000000)(digit)
-            MinValueValidator(0)(digit)
-            MaxValueValidator(5)(ratings)
-            MinValueValidator(0)(ratings)
 
             # Create and save the new TabOne instance
             tab_one_instance = tab_one_model(
@@ -102,16 +101,9 @@ def tab_one(request):
             # Handle form validation errors
             context = {'error': str(e)}
             return render(request, 'tab1.html', context)
-    else:
-        user_id = request.session.get('id')
-        user_email = request.session.get('email')
 
-        context = {
-            'user_id': user_id,
-            'user_email': user_email
-        }
-
-        return render(request, 'tab1.html', context)
+    # Add this return statement
+    return HttpResponse("Invalid request")
 
 
 def thanks(request):
