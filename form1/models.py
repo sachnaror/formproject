@@ -13,40 +13,30 @@ class User(models.Model):
 class tab_one_model(models.Model):
     digit = models.IntegerField(null=False, validators=[
                                 MaxValueValidator(10000000)])
-    # Provide a default value
     name = models.TextField(null=False, default='none')
     country = models.TextField(null=True)
-
-    CITY_CHOICES = [
-        ('none', 'None'),  # Adding default value as a choice
-        ('Delhi', 'Delhi'),
-        ('Gurgaon', 'Gurgaon'),  # cSpell:ignore
-        ('Bangalore', 'Bangalore'),  # cSpell:ignore
-    ]
-    city = models.CharField(
-        # Setting default value
-        max_length=100, choices=CITY_CHOICES, null=True, default='none')
-
-    def __str__(self):
-        return f"Digit: {self.digit}, Name: {self.name}, Country: {self.country}, City: {self.city}"
-
-
-class Rating(models.Model):
     ratings = models.IntegerField(default=0, validators=[MaxValueValidator(5)])
-
-    def __str__(self):
-        return f"Rating: {self.ratings}"
-
-
-class RadioSelection(models.Model):
     COLOR_CHOICES = [
         ('none', 'None'),
         ('red', 'Red'),
         ('green', 'Green'),
         ('blue', 'Blue'),
     ]
+    CITY_CHOICES = [
+        ('none', 'None'),
+        ('Delhi', 'Delhi'),
+        ('Gurgaon', 'Gurgaon'),
+        ('Bangalore', 'Bangalore'),
+    ]
+    city = models.CharField(
+        max_length=20, choices=CITY_CHOICES, null=True, default='none')
     color = models.CharField(
         max_length=5, choices=COLOR_CHOICES, null=True, default='none')
 
+    # Checkbox fields
+    check1 = models.BooleanField(default=False)
+    check2 = models.BooleanField(default=False)
+    check3 = models.BooleanField(default=False)
+
     def __str__(self):
-        return f"Selected color: {self.color}"
+        return f"Digit: {self.digit}, Name: {self.name}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"

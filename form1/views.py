@@ -1,17 +1,16 @@
 
 
-import json
-
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse, JsonResponse
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.shortcuts import redirect, render
-# from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
 
-from .models import RadioSelection, Rating, User, tab_one_model
+from .models import tab_one_model  # Replace with the correct import path
+from .models import User
+
+# from django.views.decorators.csrf import csrf_exempt
 
 
 def register(request):
@@ -63,83 +62,57 @@ def login(request):
 
 
 def tab_one(request):
-    # For POST requests, handle form submission
     if request.method == 'POST':
-        digit = request.POST.get('digit')
-        name = request.POST.get('name')
-        country = request.POST.get('country')
-        city = request.POST.get('city')
-        # rating = request.POST.get('rating')
-        # Validation
-        if not digit or not name:
-            return HttpResponse("Invalid input", status=400)
-
         try:
+            digit = request.POST.get('digit')
+            if digit is None:
+                raise ValueError("Digit is required")
+
             digit = int(digit)
-        except ValueError:
-            return HttpResponse("Invalid digit", status=400)
+            name = request.POST.get('name')
+            country = request.POST.get('country')
+            city = request.POST.get('city')
+            color = request.POST.get('color')
+            ratings = request.POST.get('ratings')
+            if ratings is None:
+                raise ValueError("Ratings is required")
 
-        # Create and save the new TabOne instance
-        # Replace 'TabOne' with your actual model class
-        tab_one_instance = tab_one_model(
-            digit=digit, name=name, country=country, city=city)
-        tab_one_instance.save()
+            ratings = int(ratings)
 
-        # Redirect after saving
-        return redirect('thanks')
+            # Retrieve checkbox values
+            check1 = request.POST.get('check1') == 'on'
+            check2 = request.POST.get('check2') == 'on'
+            check3 = request.POST.get('check3') == 'on'
 
-    # For GET requests, render the form
+            # Validate digit and ratings
+            MaxValueValidator(10000000)(digit)
+            MinValueValidator(0)(digit)
+            MaxValueValidator(5)(ratings)
+            MinValueValidator(0)(ratings)
+
+            # Create and save the new TabOne instance
+            tab_one_instance = tab_one_model(
+                digit=digit, name=name, country=country, city=city,
+                color=color, ratings=ratings, check1=check1, check2=check2, check3=check3)
+            tab_one_instance.save()
+
+            return redirect('thanks')
+
+        except (ValueError, ValidationError) as e:
+            # Handle form validation errors
+            context = {'error': str(e)}
+            return render(request, 'tab1.html', context)
     else:
-        # Use request.session instead of session
         user_id = request.session.get('id')
-        # Use request.session instead of session
         user_email = request.session.get('email')
 
-        context = dict()
-        context['user_id'] = user_id
-        context['user_email'] = user_email
+        context = {
+            'user_id': user_id,
+            'user_email': user_email
+        }
 
-        # print(user_id)
-        # print(user_email)
         return render(request, 'tab1.html', context)
 
 
 def thanks(request):
     return render(request, 'thanks.html')
-
-
-@require_POST
-def save_rating(request):
-    try:
-        data = json.loads(request.body)
-        rating_value = data.get('rating')
-
-        if rating_value is not None and 0 <= rating_value <= 5:
-            # Create a new Rating instance
-            rating = Rating(ratings=rating_value)
-            rating.full_clean()  # Validate the model instance
-            rating.save()
-            return JsonResponse({'status': 'success', 'rating': rating_value})
-        else:
-            return JsonResponse({'status': 'error', 'message': 'Invalid rating'})
-
-    except json.JSONDecodeError:
-        return JsonResponse({'status': 'error', 'message': 'Invalid JSON data'})
-
-    except ValidationError as e:
-        # Catch any validation errors from the model
-        return JsonResponse({'status': 'error', 'message': str(e)})
-
-    except Exception as e:
-        # Catch any other unexpected errors
-        return JsonResponse({'status': 'error', 'message': 'An unexpected error occurred'})
-
-
-@require_POST
-def save_radio_selection(request):
-    selected_color = request.POST.get('color')
-    if selected_color in dict(RadioSelection.COLOR_CHOICES).keys():
-        RadioSelection.objects.create(color=selected_color)
-        return redirect('thanks')  # Redirect to a thank you page
-    else:
-        return render(request, 'tab1.html', {'error': 'Invalid selection'})
