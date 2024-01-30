@@ -144,3 +144,22 @@ button {
   outline: 0;
   box-shadow: 0 0 0 0px #28a745;
 }
+
+/* star rating start  */
+.star_rating_card {
+  width: 100%;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.star {
+  font-size: 3vh;
+  cursor: pointer;
+}
+.star_color{
+  color: rgb(255, 0, 0);
+}
+
+/* star rating end */

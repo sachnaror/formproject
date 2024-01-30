@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -85,9 +84,9 @@ def tab_one(request):
             ratings = request.POST.get('ratings')
 
             # Retrieve checkbox values
-            check1 = request.POST.get('check1') == 'on'
-            check2 = request.POST.get('check2') == 'on'
-            check3 = request.POST.get('check3') == 'on'
+            check1 = request.POST.get('box1') == 'on'
+            check2 = request.POST.get('box2') == 'on'
+            check3 = request.POST.get('box3') == 'on'
 
             # Create and save the new TabOne instance
             tab_one_instance = tab_one_model(
