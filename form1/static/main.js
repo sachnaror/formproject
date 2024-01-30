@@ -58,6 +58,7 @@ function fun(n) {
     }
     const hiddenInput = document.getElementById("rating");
     hiddenInput.value = n;
+    console.log("one");
 }
 
 // To remove the pre-applied styling

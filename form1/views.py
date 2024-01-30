@@ -81,13 +81,15 @@ def tab_one(request):
             country = request.POST.get('country')
             city = request.POST.get('city')
             color = request.POST.get('color')
-            ratings = request.POST.get('ratings')
+            ratings = request.POST.get('rating')
 
             # Retrieve checkbox values
             check1 = request.POST.get('box1') == 'on'
             check2 = request.POST.get('box2') == 'on'
             check3 = request.POST.get('box3') == 'on'
-
+            temp = request.POST.get('box1')
+            # print(temp)
+            # print(check1, check2, check3)
             # Create and save the new TabOne instance
             tab_one_instance = tab_one_model(
                 digit=digit, name=name, country=country, city=city,
@@ -101,8 +103,19 @@ def tab_one(request):
             context = {'error': str(e)}
             return render(request, 'tab1.html', context)
 
-    # Add this return statement
-    return HttpResponse("Invalid request")
+    else:
+        # Use request.session instead of session
+        user_id = request.session.get('id')
+        # Use request.session instead of session
+        user_email = request.session.get('email')
+
+        context = dict()
+        context['user_id'] = user_id
+        context['user_email'] = user_email
+
+        # print(user_id)
+        # print(user_email)
+        return render(request, 'tab1.html', context)
 
 
 def thanks(request):
