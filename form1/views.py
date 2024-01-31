@@ -83,6 +83,7 @@ def tab_one(request):
             color = request.POST.get('color')
             ratings = request.POST.get('rating')
             describe = request.POST.get('descrip')
+            website = request.POST.get('webs')
 
             # Retrieve checkbox values
             check1 = request.POST.get('box1') == 'on'
@@ -94,7 +95,7 @@ def tab_one(request):
             # Create and save the new TabOne instance
             tab_one_instance = tab_one_model(
                 digit=digit, name=name, country=country, city=city,
-                color=color, ratings=ratings, describe=describe, check1=check1, check2=check2, check3=check3)
+                color=color, ratings=ratings, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
             tab_one_instance.save()
 
             return redirect('thanks')

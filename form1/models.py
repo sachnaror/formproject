@@ -1,4 +1,5 @@
-from django.core.validators import MaxValueValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, RegexValidator
 from django.db import models
 
 
@@ -8,6 +9,12 @@ class User(models.Model):
 
     def __str__(self):
         return self.email
+
+
+def validate_domain_name(value):
+    if "://" in value:
+        raise ValidationError(
+            "Enter only the domain name (without 'http://' or 'https://').")
 
 
 class tab_one_model(models.Model):
@@ -40,5 +47,12 @@ class tab_one_model(models.Model):
 
     describe = models.CharField(max_length=100, null=False, default='none')
 
+    domain_name_validator = RegexValidator(
+        regex=r'^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$',
+        message="Enter a valid domain name (e.g., 'example.com').")
+
+    website = models.CharField(max_length=200, blank=True, validators=[
+                               domain_name_validator, validate_domain_name])
+
     def __str__(self):
-        return f"Digit: {self.digit}, Name: {self.name}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Description: {self.describe} Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"
+        return f"Digit: {self.digit}, Name: {self.name}, Website: {self.website}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Description: {self.describe} Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"
