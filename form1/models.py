@@ -23,6 +23,9 @@ class tab_one_model(models.Model):
     name = models.TextField(null=False, default='none')
     country = models.TextField(null=True)
     ratings = models.IntegerField(default=0, validators=[MaxValueValidator(5)])
+    date = models.DateField(null=True, blank=True)
+
+
     COLOR_CHOICES = [
         ('none', 'None'),
         ('red', 'Red'),
@@ -55,4 +58,4 @@ class tab_one_model(models.Model):
                                domain_name_validator, validate_domain_name])
 
     def __str__(self):
-        return f"Digit: {self.digit}, Name: {self.name}, Website: {self.website}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Description: {self.describe} Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"
+        return f"Digit: {self.digit}, Date: {self.date}, Name: {self.name}, Website: {self.website}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Description: {self.describe} Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"
