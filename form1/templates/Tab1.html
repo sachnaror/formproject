@@ -86,7 +86,7 @@
               </div> {% endcomment %}
 
           </div>
-        <div id="idlsdHelp" class="form-text text-danger">Error message</div>
+        {% comment %} <div id="idlsdHelp" class="form-text text-danger">Error message</div> {% endcomment %}
           </div>
 
 
@@ -161,20 +161,20 @@
           </div>
           <div class="mb-5">
             <p class="fw-bolder">Description</p>
-            <textarea class="form-control border-radius textarea-width" id="exampleFormControlTextarea1" rows="3" placeholder="lorem loremloremloremloremloremloremloremloremloremloremloremloremlorem"></textarea>
+            <textarea class="form-control border-radius textarea-width" name="descrip" id="exampleFormControlTextarea1" rows="3" placeholder="lorem loremloremloremloremloremloremloremloremloremloremloremloremlorem"></textarea>
             <div id="idlHelp" class="form-text text-danger">Error message</div>
           </div>
           <div class="mb-5">
             <div class="d-flex gap-3 align-items-center">
               <div>
-                <p class="fw-bolder">Website URL</p>
-                <input type="url" class="form-control width-200 border-radius" id="id" aria-describedby="idHelp" placeholder="Website" />
-                <div id="idlHelp" class="form-text text-danger"> Error message </div>
+                <p class="fw-bolder">City search (filled above)</p>
+                <input type="url" name="citysearch" class="form-control width-200 border-radius" id="iasggdd" aria-describedby="idHelp" placeholder="citysearch" />
+                {% comment %} <div id="iasdd" class="form-text text-danger"> Error message </div> {% endcomment %}
               </div>
               <div>
-                <p class="fw-bolder">Website name (sliced from URL)</p>
+                <p class="fw-bolder">Website </p>
                 <input type="text" class="form-control width-200 border-radius" id="id" aria-describedby="idHelp" placeholder="Website" />
-                <div id="idlHelp" class="form-text text-danger"> Error message </div>
+                {% comment %} <div id="idlHelp" class="form-text text-danger"> Error message </div> {% endcomment %}
               </div>
             </div>
           </div>
@@ -183,12 +183,12 @@
               <div>
                 <p class="fw-bolder">Website Search</p>
                 <input type="text" class="form-control width-200 border-radius" id="id" aria-describedby="idHelp" placeholder="Website" />
-                <div id="idlHelp" class="form-text text-danger"> Error message </div>
+                {% comment %} <div id="idlHelp" class="form-text text-danger"> Error message </div> {% endcomment %}
               </div>
               <div>
                 <p class="fw-bolder">Date Picker</p>
                 <input id="startDate" class="form-control width-200" type="date" />
-                <div id="idlHelp" class="form-text text-danger"> Error message </div>
+                {% comment %} <div id="idlHelp" class="form-text text-danger"> Error message </div> {% endcomment %}
               </div>
             </div>
           </div>
@@ -203,7 +203,8 @@
             <input type="submit" value="save"  class="btn btn-outline-secondary fw-bolder"></button>
             <button type="button" class="btn btn-outline-secondary fw-bolder"> Save via API </button>
           </div>
-            <button type="button" class="btn btn-outline-secondary bg-green fw-bolder"> Next </button>
+          <button type="button" id="nextBButton" class="btn btn-outline-secondary bg-green fw-bolder">Next</button>
+
     </div>
 
 
@@ -311,10 +312,10 @@
 
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <script src="{% static 'main.js' %}"></script>
 
   </form>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="{% static 'main.js' %}"></script>
+
   </body>
 </html>

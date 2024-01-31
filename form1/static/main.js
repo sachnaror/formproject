@@ -69,3 +69,8 @@ function remove() {
         i++;
     }
 }
+
+//next button from tab1 to go to tab2
+document.getElementById('nextBButton').addEventListener('click', function () {
+    window.location.href = 'tab2.html';
+});

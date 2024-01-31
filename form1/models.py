@@ -38,5 +38,7 @@ class tab_one_model(models.Model):
     check2 = models.BooleanField(default=False)
     check3 = models.BooleanField(default=False)
 
+    describe = models.CharField(max_length=100, null=False, default='none')
+
     def __str__(self):
-        return f"Digit: {self.digit}, Name: {self.name}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"
+        return f"Digit: {self.digit}, Name: {self.name}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Description: {self.describe} Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"

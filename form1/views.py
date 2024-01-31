@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from .models import User, tab_one_model
@@ -20,7 +20,7 @@ def register(request):
         user = User(email=email, password=password)
         user.save()
 
-        return redirect('tab1')  # Redirect to a success page
+        return redirect('tab2')  # Redirect to a success page
 
     return render(request, 'register.html')
 
@@ -82,18 +82,19 @@ def tab_one(request):
             city = request.POST.get('city')
             color = request.POST.get('color')
             ratings = request.POST.get('rating')
+            describe = request.POST.get('descrip')
 
             # Retrieve checkbox values
             check1 = request.POST.get('box1') == 'on'
             check2 = request.POST.get('box2') == 'on'
             check3 = request.POST.get('box3') == 'on'
-            temp = request.POST.get('box1')
+            # temp = request.POST.get('box1')
             # print(temp)
             # print(check1, check2, check3)
             # Create and save the new TabOne instance
             tab_one_instance = tab_one_model(
                 digit=digit, name=name, country=country, city=city,
-                color=color, ratings=ratings, check1=check1, check2=check2, check3=check3)
+                color=color, ratings=ratings, describe=describe, check1=check1, check2=check2, check3=check3)
             tab_one_instance.save()
 
             return redirect('thanks')
@@ -120,3 +121,26 @@ def tab_one(request):
 
 def thanks(request):
     return render(request, 'thanks.html')
+
+
+def tab_two(request):
+    # Handle POST request
+    if request.method == 'POST':
+        user_id = request.session.get('id')
+        user_email = request.session.get('email')
+
+        context = {
+            'user_id': user_id,
+            'user_email': user_email
+        }
+
+        return render(request, 'tab2.html', context)
+
+    # Handle GET or other request methods
+    else:
+        # Redirect to a different page
+        return HttpResponseRedirect('/thanks/')
+
+
+def tab2(request):
+    return render(request, 'tab2.html')
