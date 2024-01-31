@@ -1,321 +1,184 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
-
     <title>bootstrap-forms</title>
-  </head>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Navigation Bar -->
+        <nav class="bg-blue-100 fs-6 nav-padding py-3">
+            {{ user_email }} (GH: {{ user_id }})
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary bg-red fw-bolder ms-auto logout">Logout</a>
+        </nav>
 
-  <body>
-    <form  method="post"> {% csrf_token %}
-    <nav class="bg-blue-100 fs-6 nav-padding py-3"> {{ user_email }} (GH: {{ user_id }})
-      {% comment %} <button class="btn btn-outline-secondary bg-red fw-bolder ms-auto logout">Logout</button> {% endcomment %}
-      <a href="{% url 'login' %}" class="btn btn-outline-secondary bg-red fw-bolder ms-auto logout">Logout</a>
+        <!-- Main Grid Layout -->
+        <div class="grid mb-5">
+            <!-- Tab Section -->
+            <div class="width-10">
+                <div class="border-custom tab-custom-style p-4">
+                    <div role="button" class="mb-2 tab-active cursor-pointer">Tab 1</div>
+                    <div role="button" class="mb-2 tab-normal">Tab 2</div>
+                    <div role="button" class="tab-normal">Tab 3</div>
+                </div>
+            </div>
 
-    </nav>
-    <div class="grid mb-5">
-      <div class="width-10">
-        <div class="border-custom tab-custom-style p-4">
-          <div role="button" class="mb-2 tab-active cursor-pointer">Tab 1</div>
-          <div role="button" class="mb-2 tab-normal">Tab 2</div>
-          <div role="button" class="tab-normal">Tab 3</div>
+            <!-- Main Content Section -->
+            <div class="width-60">
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="dropdown d-inline">
+                            <button class="btn btn-outline-secondary dropdown-toggle custom-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Select ID</button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#" onclick="selectDropdownItem('1')">1</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="selectDropdownItem('2')">2</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="selectDropdownItem('3')">3</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary bg-yellow fw-bolder" id="editButton">Edit</button>
+                        <button type="button" class="btn btn-outline-secondary bg-green fw-bolder" id="saveButton" style="display: none;">Save</button>
+                        <button type="button" class="btn btn-outline-secondary fw-bolder" id="cancelButton" style="display: none;">Cancel</button>
+                        <button type="button" class="btn btn-outline-secondary bg-blue-200 fw-bolder">New</button>
+                    </div>
+                </div>
+
+                <!-- Form Fields -->
+                <div class="mt-4 border-custom p-4 pb-5">
+                    <!-- Form ID Field -->
+                    <div class="mb-5">
+                        <p class="fw-bolder">Form ID: Give a random number</p>
+                        <input type="number" name="digit" class="form-control width-200 border-radius" id="isd" placeholder="ID" pattern="\d*" />
+                    </div>
+
+                    <!-- Name and Country Fields -->
+                    <div class="mb-5">
+                        <p class="fw-bolder">Your name</p>
+                        <div class="d-flex gap-3 align-items-center">
+                            <input type="text" name="name" class="form-control width-200 border-radius" id="id" placeholder="First name" />
+                            <input type="text" name="country" class="form-control width-200 border-radius" id="idd" placeholder="Your country" />
+                        </div>
+                    </div>
+
+                    <!-- City Dropdown -->
+                    <div class="mb-5">
+                        <p class="fw-bolder">City (fixed options from HTML page)</p>
+                        <select name="city" id="dropdownMenuButton2" class="btn btn-outline-secondary dropdown-toggle">
+                            <option value="None">Select City</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="gurgaon">Gurgaon</option>
+                            <option value="bangalore">Bangalore</option>
+                        </select>
+                    </div>
+
+                    <!-- Star Rating -->
+                    <p class="fw-bolder">Star Rating</p>
+                    <div class="star_rating_card">
+                        <span onclick="fun(1)" class="star">★</span>
+                        <span onclick="fun(2)" class="star">★</span>
+                        <span onclick="fun(3)" class="star">★</span>
+                        <span onclick="fun(4)" class="star">★</span>
+                        <span onclick="fun(5)" class="star">★</span>
+                    </div>
+                    <input type="hidden" id="rating" name="rating" value="5">
+
+                    <!-- Radio and Checkbox Fields -->
+                    <div class="mb-5">
+                        <div class="d-flex gap-5">
+                            <!-- Radio Options -->
+                            <div class="me-5">
+                                <p class="fw-bolder d-inline-block me-2">Radio</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="color" value="red" id="flexRadioDefault1" />
+                                    <label class="form-check-label" for="flexRadioDefault1">Red</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="color" value="green" id="flexRadioDefault2" />
+                                    <label class="form-check-label" for="flexRadioDefault2">Green</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="color" value="blue" id="flexRadioDefault3" />
+                                    <label class="form-check-label" for="flexRadioDefault3">Blue</label>
+                                </div>
+                            </div>
+                            <!-- Checkbox Options -->
+                            <div>
+                                <p class="fw-bolder d-inline-block me-2">Checkbox</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" checked="checked" name="box1"/>
+                                    <label class="form-check-label" for="flexCheckDefault">box - 1</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="box2"/>
+                                    <label class="form-check-label" for="flexCheckDefault">box - 2</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="box3" />
+                                    <label class="form-check-label" for="flexCheckDefault">box - 3</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description Field -->
+                    <div class="mb-5">
+                        <p class="fw-bolder">Description</p>
+                        <textarea class="form-control border-radius textarea-width" name="descrip" id="exampleFormControlTextarea1" rows="3" placeholder="Your description here"></textarea>
+                    </div>
+
+                    <!-- Additional Fields -->
+                    <div class="mb-5">
+                        <div class="d-flex gap-3 align-items-center">
+                            <!-- City Search Field -->
+                            <div>
+                                <p class="fw-bolder">City search (filled above)</p>
+                                <input type="url" name="citysearch" class="form-control width-200 border-radius" id="iasggdd" placeholder="citysearch" />
+                            </div>
+                            <!-- Website Field -->
+                            <div>
+                                <p class="fw-bolder">Website</p>
+                                <input type="text" class="form-control width-200 border-radius" id="id" placeholder="Website" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Website Search and Date Picker -->
+                    <div class="mb-5">
+                        <div class="d-flex gap-3 align-items-center">
+                            <!-- Website Search Field -->
+                            <div>
+                                <p class="fw-bolder">Website Search</p>
+                                <input type="text" class="form-control width-200 border-radius" id="id" placeholder="Website" />
+                            </div>
+                            <!-- Date Picker -->
+                            <div>
+                                <p class="fw-bolder">Date Picker</p>
+                                <input id="startDate" class="form-control width-200" type="date" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Submission Buttons -->
+                <div class="d-flex mt-4 justify-content-between">
+                    <div>
+                        <input type="submit" value="save" class="btn btn-outline-secondary fw-bolder">
+                        <button type="button" class="btn btn-outline-secondary fw-bolder">Save via API</button>
+                    </div>
+                    <button type="button" id="nextBButton" class="btn btn-outline-secondary bg-green fw-bolder">Next</button>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="width-60">
-        <div class="d-flex justify-content-between">
+    </form>
 
-          {% comment %} <div class="form-check form-switch">
-            <label class="form-check-label fs-6 text-dark" for="flexSwitchCheckChecked">Auto Save</label>
-            <input class="form-check-input" type="checkbox" id="flexSwitch" checked />
-          </div> {% endcomment %}
-
-
-          <div>
-            <div class="dropdown d-inline">
-              <button class="btn btn-outline-secondary dropdown-toggle custom-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> Select ID </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li>
-                      <a class="dropdown-item" href="#" onclick="selectDropdownItem('1')">1</a>
-                  </li>
-                  <li>
-                      <a class="dropdown-item" href="#" onclick="selectDropdownItem('2')">2</a>
-                  </li>
-                  <li>
-                      <a class="dropdown-item" href="#" onclick="selectDropdownItem('3')">3</a>
-                  </li>
-              </ul>
-          </div>
-
-          <button type="button" class="btn btn-outline-secondary bg-yellow fw-bolder" id="editButton">Edit</button>
-          <button type="button" class="btn btn-outline-secondary bg-green fw-bolder" id="saveButton" style="display: none;">Save</button>
-          <button type="button" class="btn btn-outline-secondary fw-bolder" id="cancelButton" style="display: none;">Cancel</button>
-
-
-            {% comment %} <svg id="deleteButton" xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none" class="mx-3">
-              <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
-            </svg> {% endcomment %}
-
-            <button type="button" class="btn btn-outline-secondary bg-blue-200 fw-bolder"> New </button>
-          </div>
-        </div>
-        <div class="mt-4 border-custom p-4 pb-5">
-
-          <div class="mb-5">
-            <p class="fw-bolder"> Form ID : Give a random number <span class="fw-normal"></span>
-            </p>
-
-            <input type="number" name="digit" class="form-control width-200 border-radius" id="isd" aria-describedby="idHelp" placeholder="ID" pattern="\d*" />
-
-            {% comment %} <div id="idlHelp" class="form-text text-danger">Error message</div> {% endcomment %}
-          </div>
-
-          <div class="mb-5">
-            <p class="fw-bolder"> Your name <span class="fw-normal">  </span>
-            </p>
-            <div class="d-flex gap-3 align-items-center">
-              <input type="text" name="name" class="form-control width-200 border-radius" id="id" aria-describedby="idHelp" placeholder="First name" />
-              <input type="text" name="country" class="form-control width-200 border-radius" id="idd" aria-describedby="iddHelp" placeholder="Your country" />
-
-              {% comment %} <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="flexSwitch" checked />
-              </div> {% endcomment %}
-
-          </div>
-        {% comment %} <div id="idlsdHelp" class="form-text text-danger">Error message</div> {% endcomment %}
-          </div>
-
-
-
-        <div class="mb-5">
-            <p class="fw-bolder" name="city"> City <span class="fw-normal"> (fixed options from HTML page) </span></p>
-            <div class="dropdown d-inline w-150">
-                <select name="city" id="dropdownMenuButton2" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <option value="None">Select City</option>
-
-                    <option value="delhi">Delhi</option>
-                    <option value="gurgaon">Gurgaon</option>
-                    <option value="bangalore">Bangalore</option>
-                </select>
-            </div>
-          </div>
-<p class="fw-bolder"> Star Rating</p>
-<div class="star_rating_card">
-      <span onclick="fun(1)"
-            class="star">★
-      </span>
-      <span onclick="fun(2)"
-            class="star">★
-      </span>
-      <span onclick="fun(3)"
-            class="star">★
-      </span>
-      <span onclick="fun(4)"
-            class="star">★
-      </span>
-      <span onclick="fun(5)"
-            class="star">★
-      </span>
-  </div>
-  <input type="hidden" id="rating" name="rating" value="5">
-
-
-
-          <div class="mb-5">
-            <div class="d-flex gap-5">
-              <div class="me-5">
-                <p class="fw-bolder d-inline-block me-2">Radio</p>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" value="red" id="flexRadioDefault1" />
-                  <label class="form-check-label" for="flexRadioDefault1"> Red </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" value="green" id="flexRadioDefault2" />
-                  <label class="form-check-label" for="flexRadioDefault2"> Green </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" value="blue" id="flexRadioDefault3" />
-                  <label class="form-check-label" for="flexRadioDefault3" > Blue </label>
-                </div>
-              </div>
-              <div>
-                <p class="fw-bolder d-inline-block me-2">Checkbox</p>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox"  id="flexCheckDefault" checked="checked" name="box1"/>
-                  <label class="form-check-label" for="flexCheckDefault"> box - 1 </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="box2"/>
-                  <label class="form-check-label" for="flexCheckDefault"> box - 2 </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox"  id="flexCheckDefault" name="box3" />
-                  <label class="form-check-label" for="flexCheckDefault"> box - 3 </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mb-5">
-            <p class="fw-bolder">Description</p>
-            <textarea class="form-control border-radius textarea-width" name="descrip" id="exampleFormControlTextarea1" rows="3" placeholder="lorem loremloremloremloremloremloremloremloremloremloremloremloremlorem"></textarea>
-            <div id="idlHelp" class="form-text text-danger">Error message</div>
-          </div>
-          <div class="mb-5">
-            <div class="d-flex gap-3 align-items-center">
-              <div>
-                <p class="fw-bolder">City search (filled above)</p>
-                <input type="url" name="citysearch" class="form-control width-200 border-radius" id="iasggdd" aria-describedby="idHelp" placeholder="citysearch" />
-                {% comment %} <div id="iasdd" class="form-text text-danger"> Error message </div> {% endcomment %}
-              </div>
-              <div>
-                <p class="fw-bolder">Website </p>
-                <input type="text" class="form-control width-200 border-radius" id="id" aria-describedby="idHelp" placeholder="Website" />
-                {% comment %} <div id="idlHelp" class="form-text text-danger"> Error message </div> {% endcomment %}
-              </div>
-            </div>
-          </div>
-          <div class="mb-5">
-            <div class="d-flex gap-3 align-items-center">
-              <div>
-                <p class="fw-bolder">Website Search</p>
-                <input type="text" class="form-control width-200 border-radius" id="id" aria-describedby="idHelp" placeholder="Website" />
-                {% comment %} <div id="idlHelp" class="form-text text-danger"> Error message </div> {% endcomment %}
-              </div>
-              <div>
-                <p class="fw-bolder">Date Picker</p>
-                <input id="startDate" class="form-control width-200" type="date" />
-                {% comment %} <div id="idlHelp" class="form-text text-danger"> Error message </div> {% endcomment %}
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-    <div class="d-flex mt-4 justify-content-between">
-          <div>
-            {% comment %} <input type="submit" value="login" class="btn btn-block btn-info" /> {% endcomment %}
-
-            <input type="submit" value="save"  class="btn btn-outline-secondary fw-bolder"></button>
-            <button type="button" class="btn btn-outline-secondary fw-bolder"> Save via API </button>
-          </div>
-          <button type="button" id="nextBButton" class="btn btn-outline-secondary bg-green fw-bolder">Next</button>
-
-    </div>
-
-
-  </div>
-
-
-
-
-
-{% comment %}
-
-      <div class="width-30">
-        <div class="d-flex justify-content-between">
-          <div class="dropdown d-inline">
-            <button class="btn btn-outline-secondary dropdown-toggle custom-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> Select Field Type </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a class="dropdown-item" href="#">Action</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Another action</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div class="dropdown d-inline">
-              <button class="btn btn-outline-secondary dropdown-toggle custom-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> Select ID </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li>
-                  <a class="dropdown-item" href="#">Action</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Another action</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
-            </div>
-            <button type="button" class="btn btn-outline-secondary bg-blue-200 font-weight-bold fw-bolder"> Fetch </button>
-            <button type="button" class="btn btn-outline-secondary bg-yellow font-weight-bold fw-bolder"> Get </button>
-          </div>
-        </div>
-        <div class="mt-4 border-custom p-4 pb-5">
-          <div style="margin-bottom: 100px">
-            <p class="fw-bolder m-0">Form ID</p>
-            <p>23</p>
-          </div>
-          <div style="margin-bottom: 120px">
-            <p class="fw-bolder m-0">Your name</p>
-            <span class="me-5">First name</span>
-            <span>Last name</span>
-          </div>
-          <div style="margin-bottom: 100px">
-            <p class="fw-bolder m-0">City</p>
-            <p>City name</p>
-          </div>
-          <div style="margin-bottom: 100px">
-            <p class="fw-bolder m-0">Star Rating</p>
-            <p>2/5</p>
-          </div>
-          <div class="mt-4 d-flex gap-5" style="margin-bottom: 100px">
-            <div>
-              <p class="fw-bolder m-0">Radio</p>
-              <p>lorem</p>
-            </div>
-            <div>
-              <p class="fw-bolder m-0">Checkbox</p>
-              <p>lorem, lorem ,lorem</p>
-            </div>
-          </div>
-          <div style="margin-bottom: 120px">
-            <p class="fw-bolder m-0">Description</p>
-            <p>lorem</p>
-          </div>
-          <div class="mt-4 d-flex gap-5" style="margin-bottom: 100px">
-            <div>
-              <p class="fw-bolder m-0">Website</p>
-              <p>lore</p>
-            </div>
-            <div>
-              <p class="fw-bolder m-0">Website name</p>
-              <p>lorem, lorem ,lorem</p>
-            </div>
-          </div>
-          <div class="mt-4 d-flex gap-5" style="margin-bottom: 80px">
-            <div>
-              <p class="fw-bolder m-0">Website Search</p>
-              <p>lore</p>
-            </div>
-            <div>
-              <p class="fw-bolder m-0">Date</p>
-              <p>lorem</p>
-            </div>
-          </div>
-        </div>
-
- {% endcomment %}
-
-
-
-
-      </div>
-    </div>
-
-  </form>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="{% static 'main.js' %}"></script>
-
-  </body>
+</body>
 </html>
