@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>bootstrap-forms</title>
 </head>
+
 <body>
     <form method="post">
         {% csrf_token %}
@@ -52,14 +54,25 @@
 
                 <!-- Form Fields -->
                 <div class="mt-4 border-custom p-4 pb-5">
+
+                    <div class="mb-5">
+                        <label for="formFile" class="form-label">Upload xls sheet</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+
+
                     <!-- File Input -->
                     <div class="mb-5">
-                        <label for="formFile" class="form-label">Default file input example</label>
+                        <label for="formFile" class="form-label">Upload image</label>
                         <input class="form-control" type="file" id="formFile">
-                        <br><br>
+                        <br>
+                        <br>
                         <div>
-                            <img src="..." class="img-thumbnail" alt="...">
+                            <label>Preview</label><br>
+                            <img src="..." class="img-thumbnail" alt="Preview Image">
                         </div>
+
+
                     </div>
 
                     <!-- Username and Server Input -->
@@ -68,58 +81,97 @@
                         <span class="input-group-text">@</span>
                         <input type="text" class="form-control" placeholder="Server" aria-label="Server">
                     </div>
-                    <br><br>
+                    <br>
+                    <br>
+                    <!-- Example of a Bootstrap Download Button -->
+
 
                     <div>
-                        <label for="customRange1" class="form-label">Example range</label>
-                        <input type="range" class="form-range" id="customRange1">
-                    <div>
-
-                    <br><br>
-                    <!-- Table -->
-                    <div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <a href="path/to/your/first/file" download="filename1" class="btn btn-primary" style="margin-right: 20px;">Image download</a>
+                        <a href="path/to/your/second/file" download="filename2" class="btn btn-secondary">Xls download</a>
                     </div>
+
+
+
+                    <br>
+                    <br>
+
+                    <div>
+                        <label for="customRange1" class="form-label">Range slider</label>
+                                <input type="range" class="form-range" id="customRange1" min="1" max="10" value="1">
+                        <div>
+
+
+
+
+                            <br>
+                            <br>
+                            <br>
+                            <!-- Table -->
+                            <div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">First</th>
+                                            <th scope="col">Last</th>
+                                            <th scope="col">Handle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td colspan="2">Larry the Bird</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                        <label class="form-check-label" for="invalidCheck">
+                            Agree to terms and conditions
+                        </label>
+                        <div class="invalid-feedback">
+                            You must agree before submitting.
+                        </div>
+                    </div>
+
+
                 </div>
 
-            </div>
-        </div>
-           <!-- Bottom Buttons -->
-           <div class="d-flex mt-4 justify-content-between">
-            <div>
-                <input type="submit" value="save" class="btn btn-outline-secondary fw-bolder">
-                <button type="button" class="btn btn-outline-secondary fw-bolder">Save via API</button>
-            </div>
-            <button type="button" class="btn btn-outline-secondary bg-green fw-bolder">Next</button>
-        </div>
+
+
+
+
+                <!-- Bottom Buttons -->
+                <div class="d-flex mt-4 justify-content-between">
+                    <div>
+                        <input type="submit" value="save" class="btn btn-outline-secondary fw-bolder">
+                        <button type="button" class="btn btn-outline-secondary fw-bolder">Save via API</button>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary bg-green fw-bolder">Next</button>
+                </div>
+
     </form>
 
     <!-- Scripts -->
@@ -127,4 +179,5 @@
     <script src="{% static 'main.js' %}"></script>
 
 </body>
+
 </html>
