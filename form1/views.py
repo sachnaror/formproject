@@ -4,8 +4,11 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import User, tab_one_model
 
@@ -146,3 +149,11 @@ def tab_two(request):
 
 def tab2(request):
     return render(request, 'tab2.html')
+
+
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated)
+
+    def get(self):
+        content = {'message': 'Hello, Sachin'}
+        return Response(content)
