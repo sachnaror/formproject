@@ -53,11 +53,11 @@ class tab_one_model(models.Model):
 
     describe = models.CharField(max_length=100, null=False, default='none')
 
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='forms', default='3333')
+    # user = models.ForeignKey(
+    #     User, on_delete=models.CASCADE, related_name='forms', default='3333')
 
     domain_name_validator = RegexValidator(
         regex=r'^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$',
