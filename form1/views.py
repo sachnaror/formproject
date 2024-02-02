@@ -76,40 +76,39 @@ def tab_one(request):
             'user_email': user_email
         }
 
-        try:
-            digit = request.POST.get('digit')
-            if digit is None:
-                raise ValueError("Digit is required")
+        digit = request.POST.get('digit')
+        if digit is None:
+            raise ValueError("Digit is required")
 
-            digit = int(digit)
-            name = request.POST.get('name')
-            country = request.POST.get('country')
-            city = request.POST.get('city')
-            color = request.POST.get('color')
-            ratings = request.POST.get('rating')
-            describe = request.POST.get('descrip')
-            website = request.POST.get('webs')
-            date = request.POST.get('datepik')
+        digit = int(digit)
+        name = request.POST.get('name')
+        country = request.POST.get('country')
+        city = request.POST.get('city')
+        color = request.POST.get('color')
+        ratings = request.POST.get('rating')
+        describe = request.POST.get('descrip')
+        website = request.POST.get('webs')
+        date = request.POST.get('datepik')
 
-            # Retrieve checkbox values
-            check1 = request.POST.get('box1') == 'on'
-            check2 = request.POST.get('box2') == 'on'
-            check3 = request.POST.get('box3') == 'on'
-            # temp = request.POST.get('box1')
-            # print(temp)
-            # print(check1, check2, check3)
-            # Create and save the new TabOne instance
-            tab_one_instance = tab_one_model(
-                digit=digit, name=name, country=country, city=city,
-                color=color, ratings=ratings, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
-            tab_one_instance.save()
+        # Retrieve checkbox values
+        check1 = request.POST.get('box1') == 'on'
+        check2 = request.POST.get('box2') == 'on'
+        check3 = request.POST.get('box3') == 'on'
+        # temp = request.POST.get('box1')
+        # print(temp)
+        # print(check1, check2, check3)
+        # Create and save the new TabOne instance
+        tab_one_instance = tab_one_model(
+            digit=digit, user_id_form=user_id, name=name, country=country, city=city,
+            color=color, ratings=ratings, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
+        tab_one_instance.save()
 
-            return redirect('thanks')
+        return redirect('thanks')
 
-        except (ValueError, ValidationError) as e:
-            # Handle form validation errors
-            context = {'error': str(e)}
-            return render(request, 'tab1.html', context)
+        # except (ValueError, ValidationError) as e:
+        #     # Handle form validation errors
+        #     context = {'error': str(e)}
+        #     return render(request, 'tab1.html', context)
 
     else:
         # Use request.session instead of session
