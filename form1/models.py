@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, RegexValidator
 from django.db import models
-from django.utils.translation import gettext as _
+# from django.utils.translation import gettext as _
 
 
 class User(models.Model):
@@ -53,10 +53,10 @@ class tab_one_model(models.Model):
 
     describe = models.CharField(max_length=100, null=False, default='none')
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)
 
-    user_id_form = models.IntegerField(null=False, default=1)
+    temp = models.IntegerField(null=False)
 
     # (User, on_delete=models.CASCADE, related_name='user_id', default=1)
 
