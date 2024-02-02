@@ -25,7 +25,6 @@ class tab_one_model(models.Model):
     ratings = models.IntegerField(default=0, validators=[MaxValueValidator(5)])
     date = models.DateField(null=True, blank=True)
 
-
     COLOR_CHOICES = [
         ('none', 'None'),
         ('red', 'Red'),
@@ -49,6 +48,12 @@ class tab_one_model(models.Model):
     check3 = models.BooleanField(default=False)
 
     describe = models.CharField(max_length=100, null=False, default='none')
+
+    # Timestamp fields
+    # Automatically set to now when object is first created.
+    created_at = models.DateTimeField(auto_now_add=True)
+    # Automatically set to now every time the object is saved.
+    updated_at = models.DateTimeField(auto_now=True)
 
     domain_name_validator = RegexValidator(
         regex=r'^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$',
