@@ -99,7 +99,7 @@ def tab_one(request):
         # print(check1, check2, check3)
         # Create and save the new TabOne instance
         tab_one_instance = tab_one_model(
-            digit=digit, temp=user_id, name=name, country=country, city=city,
+            digit=digit, tem=user_id, name=name, country=country, city=city,
             color=color, ratings=ratings, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
         tab_one_instance.save()
 
