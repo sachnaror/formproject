@@ -1,11 +1,15 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, RegexValidator
 from django.db import models
+from django.utils.translation import gettext as _
 
 
 class User(models.Model):
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=20)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        null=False, default='2021-01-01 00:00:00')
 
     def __str__(self):
         return self.email
@@ -49,11 +53,11 @@ class tab_one_model(models.Model):
 
     describe = models.CharField(max_length=100, null=False, default='none')
 
-    # Timestamp fields
-    # Automatically set to now when object is first created.
-    created_at = models.DateTimeField(auto_now_add=True)
-    # Automatically set to now every time the object is saved.
-    updated_at = models.DateTimeField(auto_now=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='forms', default='3333')
 
     domain_name_validator = RegexValidator(
         regex=r'^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$',
@@ -63,4 +67,4 @@ class tab_one_model(models.Model):
                                domain_name_validator, validate_domain_name])
 
     def __str__(self):
-        return f"Digit: {self.digit}, Date: {self.date}, Name: {self.name}, Website: {self.website}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Description: {self.describe} Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"
+        return f"Digit: {self.digit}, Date: {self.date}, User: {self.user},  Name: {self.name}, Website: {self.website}, Country: {self.country}, City: {self.city}, Rating: {self.ratings}, Description: {self.describe} Selected color: {self.color}, Check1: {self.check1}, Check2: {self.check2}, Check3: {self.check3}"

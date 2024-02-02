@@ -6,11 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .models import User, tab_one_model
+
+# from rest_framework.permissions import IsAuthenticated
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+
 
 # from django.views.decorators.csrf import csrf_exempt
 
@@ -151,9 +153,9 @@ def tab2(request):
     return render(request, 'tab2.html')
 
 
-class HelloView(APIView):
-    permission_classes = (IsAuthenticated)
+# class HelloView(APIView):
+#     permission_classes = (IsAuthenticated)
 
-    def get(self):
-        content = {'message': 'Hello, Sachin'}
-        return Response(content)
+#     def get(self):
+#         content = {'message': 'Hello, Sachin'}
+#         return Response(content)
