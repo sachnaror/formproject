@@ -1,12 +1,16 @@
 
 
+import json
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models import Q
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render  # Replace with your actual model
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 from .models import User, tab_one_model
 
@@ -96,6 +100,7 @@ def tab_one(request):
         describe = request.POST.get('descrip')
         website = request.POST.get('webs')
         date = request.POST.get('datepik')
+        namesearch = request.POST.get('namesearch')
 
         # Retrieve checkbox values
         check1 = request.POST.get('box1') == 'on'
@@ -107,7 +112,7 @@ def tab_one(request):
         # Create and save the new TabOne instance
         tab_one_instance = tab_one_model(
             digit=digit, tem=user_id, name=name, country=country, city=city,
-            color=color, ratings=ratings, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
+            color=color, ratings=ratings, namesearch=namesearch, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
         tab_one_instance.save()
 
         return redirect('thanks')
@@ -153,3 +158,47 @@ def tab_two(request):
     else:
         # Redirect to a different page
         return HttpResponseRedirect('/thanks/')
+
+
+# @csrf_exempt
+# @require_http_methods(["GET"])
+# def get_form_data(request):
+#     form_id = request.GET.get('id')
+#     try:
+#         form_instance = tab_one_model.objects.get(pk=form_id)
+#         # Serialize form data. Adjust fields as needed.
+#         form_data = {
+#             "digit": form_instance.digit,
+#             "name": form_instance.name,
+#             "country": form_instance.country,
+#             "city": form_instance.city,
+#             "color": form_instance.color,
+#             "ratings": form_instance.ratings,
+#             "date": form_instance.date,
+#             "website": form_instance.website,
+#             "describe": form_instance.describe,
+#             "namesearch": form_instance.namesearch,
+
+#         }
+#         return JsonResponse({"success": True, "form_data": form_data})
+#     except ObjectDoesNotExist:
+#         return JsonResponse({"success": False, "error": "Form not found"})
+
+
+# @csrf_exempt
+# @require_http_methods(["POST"])
+# def save_form_data(request):
+#     # Logic to save or update form data
+#     return JsonResponse({"success": True})
+
+
+# @csrf_exempt
+# @require_http_methods(["POST"])
+# def delete_form(request):
+#     form_id = request.POST.get('id')
+#     try:
+#         form_instance = tab_one_model.objects.get(pk=form_id)
+#         form_instance.delete()
+#         return JsonResponse({"success": True})
+#     except ObjectDoesNotExist:
+#         return JsonResponse({"success": False, "error": "Form not found"})
