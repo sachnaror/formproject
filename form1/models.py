@@ -1,15 +1,15 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, RegexValidator
 from django.db import models
+
 # from django.utils.translation import gettext as _
 
 
 class User(models.Model):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=20)
-    # created_at = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(
-        null=False, default='2021-02-01 00:00:00')
+        null=False, auto_now_add=True)
 
     def __str__(self):
         return self.email
@@ -27,7 +27,9 @@ class tab_one_model(models.Model):
     name = models.TextField(null=False, default='none')
     country = models.TextField(null=True)
     ratings = models.IntegerField(default=0, validators=[MaxValueValidator(5)])
-    date = models.DateField(null=True, blank=True)
+    # date = models.DateField(null=True, blank=True)
+    date = models.DateField(null=False, auto_now_add=True)
+    namesearch = models.CharField(null=False, max_length=100, default='mona')
 
     COLOR_CHOICES = [
         ('none', 'None'),

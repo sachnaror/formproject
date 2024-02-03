@@ -74,3 +74,45 @@ function remove() {
 document.getElementById('nextBButton').addEventListener('click', function () {
     window.location.href = 'tab2.html';
 });
+
+
+//search field suggestions
+document.getElementById('iazxsggdd').addEventListener('input', function () {
+    const inputField = this;
+    const suggestionsPanel = document.getElementById('nameSuggestions');
+    const searchTerm = inputField.value;
+
+    if (searchTerm.length > 0) {
+        fetch(`/tab1/?term=${searchTerm}`)
+            .then(response => response.json())
+            .then(data => {
+                suggestionsPanel.innerHTML = ''; // Clear previous suggestions
+                data.forEach(function (suggestedWord) {
+                    const div = document.createElement('div');
+                    div.innerHTML = suggestedWord;
+                    div.addEventListener('click', function () {
+                        inputField.value = suggestedWord; // Fill input with clicked suggestion
+                        suggestionsPanel.innerHTML = ''; // Clear suggestions
+                    });
+                    suggestionsPanel.appendChild(div);
+                });
+                if (data.length > 0) {
+                    suggestionsPanel.style.display = 'block';
+                } else {
+                    suggestionsPanel.style.display = 'none';
+                }
+            });
+    } else {
+        suggestionsPanel.innerHTML = '';
+        suggestionsPanel.style.display = 'none';
+    }
+});
+
+// Optional: Hide suggestions when clicking outside
+document.addEventListener('click', function (e) {
+    const suggestionsPanel = document.getElementById('nameSuggestions');
+    if (e.target.id !== 'iazxsggdd') {
+        suggestionsPanel.innerHTML = '';
+        suggestionsPanel.style.display = 'none';
+    }
+});
