@@ -3,8 +3,10 @@
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import redirect, render  # Replace with your actual model
+from django.core.exceptions import ValidationError
+from django.http import HttpResponseRedirect,JsonResponse
+from django.shortcuts import redirect, render
+from django.forms.models import model_to_dict
 
 from .models import User, tab_one_model
 
@@ -61,7 +63,6 @@ def login(request):
             # Save email and cookie in the context
             request.session['email'] = email
             request.session['id'] = user.id
-
             return redirect('tab1')
         else:
             messages.error(request, "Incorrect password")
@@ -71,21 +72,15 @@ def login(request):
 
 
 def tab_one(request):
+    
     if request.method == 'POST':
-
-        user_id = request.session.get('id')
-        user_email = request.session.get('email')
-
-        context = {
-            'user_id': user_id,
-            'user_email': user_email
-        }
-
         digit = request.POST.get('digit')
         if digit is None:
             raise ValueError("Digit is required")
-
         digit = int(digit)
+        user_id = request.session.get('id')
+        user_email = request.session.get('email')
+        count = request.session.get('count')
         name = request.POST.get('name')
         country = request.POST.get('country')
         city = request.POST.get('city')
@@ -94,44 +89,78 @@ def tab_one(request):
         describe = request.POST.get('descrip')
         website = request.POST.get('webs')
         date = request.POST.get('datepik')
-        namesearch = request.POST.get('namesearch')
-
-        # Retrieve checkbox values
         check1 = request.POST.get('box1') == 'on'
         check2 = request.POST.get('box2') == 'on'
         check3 = request.POST.get('box3') == 'on'
-        # temp = request.POST.get('box1')
-        # print(temp)
-        # print(check1, check2, check3)
-        # Create and save the new TabOne instance
         tab_one_instance = tab_one_model(
-            digit=digit, tem=user_id, name=name, country=country, city=city,
-            color=color, ratings=ratings, namesearch=namesearch, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
+            digit=digit, user_id=user_id, name=name, country=country, city=city,
+            color=color, ratings=ratings, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
+
         tab_one_instance.save()
-
         return redirect('thanks')
-
-        # except (ValueError, ValidationError) as e:
-        #     # Handle form validation errors
-        #     context = {'error': str(e)}
-        #     return render(request, 'tab1.html', context)
 
     else:
         # Use request.session instead of session
         user_id = request.session.get('id')
-        # Use request.session instead of session
         user_email = request.session.get('email')
+        count = tab_one_model.objects.filter(user_id=user_id).count()
+        count = count+1
+        temp = []
+        for i in range(1,count):
+            temp.append(i)
+        context = dict()
+        formdata = dict()
+        context['formdata'] = formdata
+        context['user_id'] = user_id
+        context['user_email'] = user_email
+        context['count']=count
+        context['temp']=temp
 
+        return render(request, 'tab1.html', context)
+
+def edit_tab_one(request):
+    if request.method == 'POST':
+        print("insdie post")
+        digit = request.POST.get('digit')
+        if digit is None:
+            raise ValueError("Digit is required")
+        digit = int(digit)
+        user_id = request.session.get('id')
+        user_email = request.session.get('email')
+        count = request.session.get('count')
+        name = request.POST.get('name')
+        country = request.POST.get('country')
+        city = request.POST.get('city')
+        color = request.POST.get('color')
+        ratings = request.POST.get('rating')
+        describe = request.POST.get('descrip')
+        website = request.POST.get('webs')
+        date = request.POST.get('datepik')
+        check1 = request.POST.get('box1') == 'on'
+        check2 = request.POST.get('box2') == 'on'
+        check3 = request.POST.get('box3') == 'on'
+        tab_one_model.objects.filter(digit=digit).update(digit=digit, user_id=user_id, name=name, country=country, city=city,color=color, ratings=ratings, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
+        return redirect('thanks')
+    if(request.method == 'GET'):
+        user_id = request.session.get('id')
+        user_email = request.session.get('email')
+        digit = request.GET.get('digit')
+        formdata = tab_one_model.objects.get(digit=digit)
+        formdata = model_to_dict(formdata)
+        count = tab_one_model.objects.filter(user_id=user_id).count()
+        count = count+1
+        temp = []
+        for i in range(1,count):
+            temp.append(i)
         context = dict()
         context['user_id'] = user_id
         context['user_email'] = user_email
-
-        # print(user_id)
-        # print(user_email)
+        context['count']=digit
+        context['temp']=temp
+        context['formdata']=formdata
         return render(request, 'tab1.html', context)
-
-
 def thanks(request):
+    print("inside thanks function")
     return render(request, 'thanks.html')
 
 
