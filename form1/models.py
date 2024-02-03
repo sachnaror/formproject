@@ -29,7 +29,7 @@ class tab_one_model(models.Model):
     ratings = models.IntegerField(default=0, validators=[MaxValueValidator(5)])
     # date = models.DateField(null=True, blank=True)
     date = models.DateField(null=False, auto_now_add=True)
-    namesearch = models.CharField(null=False, max_length=100, default='mona')
+    name_search = models.CharField(null=False, max_length=100, default='mona')
 
     COLOR_CHOICES = [
         ('none', 'None'),
