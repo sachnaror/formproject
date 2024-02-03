@@ -1,16 +1,10 @@
 
 
-import json
-
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render  # Replace with your actual model
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
 
 from .models import User, tab_one_model
 
@@ -160,45 +154,45 @@ def tab_two(request):
         return HttpResponseRedirect('/thanks/')
 
 
-# @csrf_exempt
-# @require_http_methods(["GET"])
-# def get_form_data(request):
-#     form_id = request.GET.get('id')
-#     try:
-#         form_instance = tab_one_model.objects.get(pk=form_id)
-#         # Serialize form data. Adjust fields as needed.
-#         form_data = {
-#             "digit": form_instance.digit,
-#             "name": form_instance.name,
-#             "country": form_instance.country,
-#             "city": form_instance.city,
-#             "color": form_instance.color,
-#             "ratings": form_instance.ratings,
-#             "date": form_instance.date,
-#             "website": form_instance.website,
-#             "describe": form_instance.describe,
-#             "namesearch": form_instance.namesearch,
+@login_required
+def tab_one_view(request):
+    user_tem = request.user.id  # Assuming `tem` correlates to User model's ID
+    forms = tab_one_model.objects.filter(
+        tem=user_tem).values_list('id', flat=True)
 
-#         }
-#         return JsonResponse({"success": True, "form_data": form_data})
-#     except ObjectDoesNotExist:
-#         return JsonResponse({"success": False, "error": "Form not found"})
+    if request.method == "POST":
+        action = request.POST.get('action')
+        if action == 'delete':
+            form_id = request.POST.get('form_id')
+            tab_one_model.objects.filter(id=form_id, tem=user_tem).delete()
+            # Redirects to the same view to refresh the page
+            return redirect('tab_one')
 
+        # elif action == 'edit':
+        #     # Logic to handle form editing
+        #     form_id = request.POST.get('form_id')
+        #     tab_one_model.objects.filter(id=form_id, tem=user_tem)
+        #     return redirect('tab_one')
 
-# @csrf_exempt
-# @require_http_methods(["POST"])
-# def save_form_data(request):
-#     # Logic to save or update form data
-#     return JsonResponse({"success": True})
+        elif action == 'new' or action == 'cancel':
+            # Logic to clear the form or prepare a new form
+            return redirect('tab_one')
 
+    if request.method == "GET":
+        action = request.POST.get('action')
+        if action == 'edit':
+            # Logic to handle form editing
+            form_id = request.POST.get('form_id')
+            tab_one_model.objects.filter(id=form_id, tem=user_tem)
+            return redirect('tab_one')
+        # Logic to handle GET request
+    else:
+        # Logic to handle other request methods
+        # ...
+        messages.error(request, "I cant fetch  the data. Please try again.")
+        return redirect('tab1')
 
-# @csrf_exempt
-# @require_http_methods(["POST"])
-# def delete_form(request):
-#     form_id = request.POST.get('id')
-#     try:
-#         form_instance = tab_one_model.objects.get(pk=form_id)
-#         form_instance.delete()
-#         return JsonResponse({"success": True})
-#     except ObjectDoesNotExist:
-#         return JsonResponse({"success": False, "error": "Form not found"})
+    context = {
+        'forms': forms,
+    }
+    return render(request, 'tab1.html', context)

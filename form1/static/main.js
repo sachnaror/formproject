@@ -1,51 +1,51 @@
-document.addEventListener("DOMContentLoaded", () => {
-    var editButton = document.getElementById("editButton");
-    var saveButton = document.getElementById("saveButton");
-    var cancelButton = document.getElementById("cancelButton");
-    var dropdownMenuButton = document.getElementById("dropdownMenuButton1");
+// document.addEventListener("DOMContentLoaded", () => {
+//     var editButton = document.getElementById("editButton");
+//     var saveButton = document.getElementById("saveButton");
+//     var cancelButton = document.getElementById("cancelButton");
+//     var dropdownMenuButton = document.getElementById("dropdownMenuButton1");
 
-    // Function to toggle edit, save, and cancel buttons
-    function toggleButtons(showEdit) {
-        if (showEdit) {
-            editButton.style.display = "";
-            saveButton.style.display = "none";
-            cancelButton.style.display = "none";
-        } else {
-            editButton.style.display = "none";
-            saveButton.style.display = "";
-            cancelButton.style.display = "";
-        }
-    }
+//     // Function to toggle edit, save, and cancel buttons
+//     function toggleButtons(showEdit) {
+//         if (showEdit) {
+//             editButton.style.display = "";
+//             saveButton.style.display = "none";
+//             cancelButton.style.display = "none";
+//         } else {
+//             editButton.style.display = "none";
+//             saveButton.style.display = "";
+//             cancelButton.style.display = "";
+//         }
+//     }
 
-    // Function to reset the dropdown value to "Select ID"
-    function resetDropdown() {
-        dropdownMenuButton.textContent = "Select ID";
-    }
+//     // Function to reset the dropdown value to "Select ID"
+//     function resetDropdown() {
+//         dropdownMenuButton.textContent = "Select ID";
+//     }
 
-    // Function to update dropdown text and toggle buttons
-    function selectDropdownItem(value) {
-        dropdownMenuButton.textContent = value;
-        toggleButtons(false);
-    }
+//     // Function to update dropdown text and toggle buttons
+//     function selectDropdownItem(value) {
+//         dropdownMenuButton.textContent = value;
+//         toggleButtons(false);
+//     }
 
-    // Add click event listeners to the saveButton and cancelButton
-    saveButton.addEventListener("click", function () {
-        resetDropdown();
-        toggleButtons(true);
-    });
+//     // Add click event listeners to the saveButton and cancelButton
+//     saveButton.addEventListener("click", function () {
+//         resetDropdown();
+//         toggleButtons(true);
+//     });
 
-    cancelButton.addEventListener("click", function () {
-        resetDropdown();
-        toggleButtons(true);
-    });
+//     cancelButton.addEventListener("click", function () {
+//         resetDropdown();
+//         toggleButtons(true);
+//     });
 
-    // Attach event listeners to dropdown items
-    document.querySelectorAll(".dropdown-item").forEach((item) => {
-        item.addEventListener("click", function () {
-            selectDropdownItem(this.textContent);
-        });
-    });
-});
+//     // Attach event listeners to dropdown items
+//     document.querySelectorAll(".dropdown-item").forEach((item) => {
+//         item.addEventListener("click", function () {
+//             selectDropdownItem(this.textContent);
+//         });
+//     });
+// });
 
 let stars = document.getElementsByClassName("star");
 let output = document.getElementById("output");
@@ -116,3 +116,25 @@ document.addEventListener('click', function (e) {
         suggestionsPanel.style.display = 'none';
     }
 });
+
+
+
+
+function selectDropdownItem(id) {
+    // Logic to handle selection, such as setting a hidden input with the selected ID
+    document.getElementById('selectedFormId').value = id; // Assuming you have a hidden input to store this
+
+    // Show/Hide buttons based on selection
+    document.getElementById('editButton').style.display = 'inline-block';
+    document.getElementById('deleteButton').style.display = 'inline-block';
+    document.getElementById('cancelButton').style.display = 'none'; // Adjust based on your logic
+}
+
+// Example function for handling the Delete action
+function deleteForm() {
+    document.getElementById('selectedFormId').value = ''; // Clear the hidden input
+    document.getElementById('deleteButton').style.display = 'none';
+    // Make a POST request to your Django backend to delete the form
+    // This will require adjusting your view to handle AJAX requests or form submissions
+}
+
