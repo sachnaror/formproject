@@ -10,12 +10,14 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     # path('hello/', views.HelloView.as_view(), name='hello'),
     path('tab1/', views.tab_one, name='tab1'),
+    path('tab1/edit', views.edit_tab_one),
     path('tab2/', views.tab2, name='tab2'),
     path('thanks/', views.thanks, name='thanks'),
     path('form1/', views.register, name='register'),
     path('form1/register/', views.register, name='register'),
     path('form1/login/', views.login, name='login'),
     path('form1/thanks/', views.thanks, name='thanks'),
+
 
     # path('tab_one', views.tab_one, name='tab_one'),
     # path('form1/tab_one', views.tab_one, name='tab_one'),

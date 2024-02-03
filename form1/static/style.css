@@ -163,32 +163,3 @@ button {
 }
 
 /* star rating end */
-
-suggestions-dropdown div {
-  padding: 10px;
-  cursor: pointer;
-}
-.suggestions-dropdown div:hover {
-  background-color: #f0f0f0;
-}
-
-
-
-/* searchfield */
-
-.suggestions-dropdown {
-  border: 1px solid #ccc;
-  display: none; /* Initially hidden */
-  position: absolute; /* Adjust as needed */
-  background-color: white;
-  z-index: 1000;
-}
-
-.suggestions-dropdown div {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.suggestions-dropdown div:hover {
-  background-color: #f0f0f0;
-}

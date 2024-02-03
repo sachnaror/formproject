@@ -8,8 +8,9 @@ from django.db import models
 class User(models.Model):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=20)
+    # created_at = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(
-        null=False, auto_now_add=True)
+        null=False, default='2021-02-01 00:00:00')
 
     def __str__(self):
         return self.email
@@ -27,9 +28,7 @@ class tab_one_model(models.Model):
     name = models.TextField(null=False, default='none')
     country = models.TextField(null=True)
     ratings = models.IntegerField(default=0, validators=[MaxValueValidator(5)])
-    # date = models.DateField(null=True, blank=True)
-    date = models.DateField(null=False, auto_now_add=True)
-    name_search = models.CharField(null=False, max_length=100, default='mona')
+    date = models.DateField(null=True, blank=True)
 
     COLOR_CHOICES = [
         ('none', 'None'),
@@ -58,7 +57,7 @@ class tab_one_model(models.Model):
     # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
 
-    tem = models.IntegerField(null=False)
+    user_id = models.IntegerField(null=False, default=1)
 
     # (User, on_delete=models.CASCADE, related_name='user_id', default=1)
 
