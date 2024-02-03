@@ -29,7 +29,7 @@ class tab_one_model(models.Model):
     ratings = models.IntegerField(default=0, validators=[MaxValueValidator(5)])
     # date = models.DateField(null=True, blank=True)
     date = models.DateField(null=False, auto_now_add=True)
-#     namesearch = models.CharField(null=False, max_length=100, default='mona')
+    namesearch = models.CharField(null=False, max_length=100, default='mona')
 
     COLOR_CHOICES = [
         ('none', 'None'),
@@ -58,7 +58,7 @@ class tab_one_model(models.Model):
     # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
 
-    user_id = models.IntegerField(null=False,default=1)
+    tem = models.IntegerField(null=False)
 
     # (User, on_delete=models.CASCADE, related_name='user_id', default=1)
 
