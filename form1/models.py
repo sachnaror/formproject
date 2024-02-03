@@ -56,7 +56,7 @@ class tab_one_model(models.Model):
     # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
 
-    temp = models.IntegerField(null=False)
+    user_id = models.IntegerField(null=False,default=1)
 
     # (User, on_delete=models.CASCADE, related_name='user_id', default=1)
 

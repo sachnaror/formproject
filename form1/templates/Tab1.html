@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <form method="post"> {% csrf_token %}
+   
         <!-- Navigation Bar -->
         <nav class="bg-blue-100 fs-6 nav-padding py-3"> {{ user_email }} (GH: {{ user_id }}) <a href="{% url 'login' %}" class="btn btn-outline-secondary bg-red fw-bolder ms-auto logout">Logout</a> </nav> <!-- Main Grid Layout -->
         <div class="grid mb-5">
@@ -28,53 +28,61 @@
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-between">
                     <div>
-                        <div class="dropdown d-inline"> <button class="btn btn-outline-secondary dropdown-toggle custom-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Select ID</button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#" onclick="selectDropdownItem('1')">1</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="selectDropdownItem('2')">2</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="selectDropdownItem('3')">3</a></li>
-                            </ul>
-                        </div> <button type="button" class="btn btn-outline-secondary bg-yellow fw-bolder" id="editButton">Edit</button> <button type="button" class="btn btn-outline-secondary bg-green fw-bolder" id="saveButton" style="display: none;">Save</button> <button type="button" class="btn btn-outline-secondary fw-bolder" id="cancelButton" style="display: none;">Cancel</button> <button type="button" class="btn btn-outline-secondary bg-blue-200 fw-bolder">New</button>
+                        <form method="GET" action="edit"> {% csrf_token %}
+                            <select name="digit" id="dropdownMenuButton2" class="btn btn-outline-secondary dropdown-toggle">
+                                <option value="None">Edit form number</option>
+                                {% for i in temp %}
+                                <option value={{i}}>{{i}}</option>
+                                {% endfor %}
+                                <!-- add values here from backend -->
+                            </select>
+                            <button type="submit" class="btn btn-outline-secondary bg-yellow fw-bolder" id="editButton">Edit</button> 
+                        </form>
+                            <a class="btn btn-outline-secondary bg-yellow fw-bolder" id="editButton" href="{% url 'tab1' %}">New</a>
                     </div>
-                </div> <!-- Form Fields -->
+                </div>
+                <form method="post" action=""> {% csrf_token %}
+                    <!-- Form Fields -->
                 <div class="mt-4 border-custom p-4 pb-5">
                     <!-- Form ID Field -->
                     <div class="mb-5">
-                        <p class="fw-bolder">Form-id (numeric only)</p> <input type="number" name="digit" class="form-control width-50 border-radius" id="isd" placeholder="ID" pattern="\d*" style="width: 10%;" />
+                        <p class="fw-bolder">Form-id (numeric only)</p> <input type="number" name="digit" class="form-control width-50 border-radius" id="isd" value={{count}} pattern="\d*" style="width: 10%;" readonly />
                     </div> <!-- Name and Country Fields -->
                     <div class="mb-5">
                         <p class="fw-bolder">Your name</p>
-                        <div class="d-flex gap-3 align-items-center"> <input type="text" name="name" class="form-control width-200 border-radius" id="id" placeholder="First name" /> <input type="text" name="country" class="form-control width-200 border-radius" id="idd" placeholder="Your country" /> </div>
+                        <div class="d-flex gap-3 align-items-center"> <input type="text" name="name" class="form-control width-200 border-radius" placeholder="First name" value="{% if formdata.name %}{{ formdata.name }}{% else %}{% endif %}" id="id"/>
+                             <input type="text" name="country" class="form-control width-200 border-radius" value={% if formdata.country %}{{ formdata.country }}{% else %}{% endif %} id="idd" placeholder="Your country" /> </div>
                     </div> <!-- City Dropdown -->
                     <div class="mb-5">
-                        <p class="fw-bolder">City (fixed options from HTML page)</p> <select name="city" id="dropdownMenuButton2" class="btn btn-outline-secondary dropdown-toggle">
-                            <option value="None">Select City</option>
+                        <p class="fw-bolder">City (fixed options from HTML page)</p> 
+                        <select name="city" id="dropdownMenuButton2" class="btn btn-outline-secondary dropdown-toggle">
+                            <option value={{formdata.city}}>{% if formdata.city %}{{ formdata.city }}{% else %}select city{% endif %}</option>
                             <option value="delhi">Delhi</option>
                             <option value="gurgaon">Gurgaon</option>
                             <option value="bangalore">Bangalore</option>
                         </select>
                     </div> <!-- Star Rating -->
                     <p class="fw-bolder">Star Rating</p>
-                    <div class="star_rating_card"> <span onclick="fun(1)" class="star">★</span> <span onclick="fun(2)" class="star">★</span> <span onclick="fun(3)" class="star">★</span> <span onclick="fun(4)" class="star">★</span> <span onclick="fun(5)" class="star">★</span> </div> <input type="hidden" id="rating" name="rating" value="5"> <!-- Radio and Checkbox Fields --> <br> <br>
+                    <div class="star_rating_card"> <span onclick="fun(1)" class="star">★</span> <span onclick="fun(2)" class="star">★</span> <span onclick="fun(3)" class="star">★</span> <span onclick="fun(4)" class="star">★</span> <span onclick="fun(5)" class="star">★</span> </div> <input type="hidden" id="rating" name="rating" value={% if formdata.rating %}{{ formdata.rating }}{% else %}{% endif %}> <!-- Radio and Checkbox Fields --> <br> <br>
                     <div class="mb-5">
                         <div class="d-flex gap-5">
                             <!-- Radio Options -->
                             <div class="me-5">
                                 <p class="fw-bolder d-inline-block me-2">Radio</p>
-                                <div class="form-check"> <input class="form-check-input" type="radio" name="color" value="red" id="flexRadioDefault1" /> <label class="form-check-label" for="flexRadioDefault1">Red</label> </div>
-                                <div class="form-check"> <input class="form-check-input" type="radio" name="color" value="green" id="flexRadioDefault2" /> <label class="form-check-label" for="flexRadioDefault2">Green</label> </div>
-                                <div class="form-check"> <input class="form-check-input" type="radio" name="color" value="blue" id="flexRadioDefault3" /> <label class="form-check-label" for="flexRadioDefault3">Blue</label> </div>
+                                <div class="form-check"> <input class="form-check-input" type="radio" name="color" value="red" id="flexRadioDefault1" {% if formdata.color == 'red' %}checked{% endif %}/> <label class="form-check-label" for="flexRadioDefault1">Red</label> </div>
+                                <div class="form-check"> <input class="form-check-input" type="radio" name="color" value="green" id="flexRadioDefault2" {% if formdata.color == 'green' %}checked{% endif %}/> <label class="form-check-label" for="flexRadioDefault2">Green</label> </div>
+                                <div class="form-check"> <input class="form-check-input" type="radio" name="color" value="blue" id="flexRadioDefault3" {% if formdata.color == 'blue' %}checked{% endif %}/> <label class="form-check-label" for="flexRadioDefault3">Blue</label> </div>
                             </div> <!-- Checkbox Options -->
                             <div>
                                 <p class="fw-bolder d-inline-block me-2">Checkbox</p>
-                                <div class="form-check"> <input class="form-check-input" type="checkbox" id="flexCheckDefault" checked="checked" name="box1" /> <label class="form-check-label" for="flexCheckDefault">box - 1</label> </div>
-                                <div class="form-check"> <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="box2" /> <label class="form-check-label" for="flexCheckDefault">box - 2</label> </div>
-                                <div class="form-check"> <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="box3" /> <label class="form-check-label" for="flexCheckDefault">box - 3</label> </div>
+                                <div class="form-check"> <input class="form-check-input" type="checkbox" id="flexCheckDefault" {% if formdata.check1 %}checked{% endif %} name="box1" /> <label class="form-check-label" for="flexCheckDefault">box - 1</label> </div>
+                                <div class="form-check"> <input class="form-check-input" type="checkbox" id="flexCheckDefault" {% if formdata.check2 %}checked{% endif %} name="box2" /> <label class="form-check-label" for="flexCheckDefault">box - 2</label> </div>
+                                <div class="form-check"> <input class="form-check-input" type="checkbox" id="flexCheckDefault" {% if formdata.check3 %}checked{% endif %} name="box3" /> <label class="form-check-label" for="flexCheckDefault">box - 3</label> </div>
                             </div>
                         </div>
                     </div> <!-- Description Field -->
                     <div class="mb-5">
-                        <p class="fw-bolder">Description</p> <textarea class="form-control border-radius textarea-width" name="descrip" id="exampleFormControlTextarea1" rows="3" placeholder="Your description here"></textarea>
+                        <p class="fw-bolder">Description</p> <textarea class="form-control border-radius textarea-width" name="descrip" id="exampleFormControlTextarea1" rows="3" placeholder="Your description here">{% if formdata.describe %}{{ formdata.describe }}{% endif %}</textarea>
                     </div> <!-- Additional Fields -->
                     <div class="mb-5">
                         <div class="d-flex gap-3 align-items-center">
@@ -85,7 +93,7 @@
                             </div> <!-- Website Field -->
                             <div>
                                 <p class="fw-bolder">Website name</p>
-                                 <input type="text" name="webs" class="form-control width-200 border-radius" id="i34d" placeholder="Website" />
+                                 <input type="text" name="webs" class="form-control width-200 border-radius" id="i34d" placeholder="Website" value={% if formdata.website %}{{ formdata.website }}{% endif %}/>
                             </div>
 
 
@@ -101,7 +109,7 @@
                             <!-- Date Picker -->
                             <div>
                                 <p class="fw-bolder">Date Picker</p>
-                                <input id="startDate" name="datepik"class="form-control width-200" type="date" />
+                                <input id="startDate" name="datepik"class="form-control width-200" type="date" value={% if formdata.date %}{{ formdata.date|date:'Y-m-d' }}{% endif %} />
                             </div>
                         </div>
                     </div>
