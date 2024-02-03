@@ -4,18 +4,20 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,JsonResponse
 from django.shortcuts import redirect, render
 from django.forms.models import model_to_dict
 
 from .models import User, tab_one_model
 
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
 
-
-# from django.views.decorators.csrf import csrf_exempt
+def get_name_suggestions(request):
+    if 'term' in request.GET:
+        qs = tab_one_model.objects.filter(
+            name__icontains=request.GET.get('term'))
+        names = list(qs.values_list('name', flat=True))
+        return JsonResponse(names, safe=False)
+    return JsonResponse([], safe=False)
 
 
 def register(request):
@@ -29,6 +31,10 @@ def register(request):
         return redirect('tab2')  # Redirect to a success page
 
     return render(request, 'register.html')
+
+
+def tab2(request):
+    return render(request, 'tab2.html')
 
 
 def tab1(request):
@@ -89,6 +95,7 @@ def tab_one(request):
         tab_one_instance = tab_one_model(
             digit=digit, user_id=user_id, name=name, country=country, city=city,
             color=color, ratings=ratings, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
+
         tab_one_instance.save()
         return redirect('thanks')
 
@@ -176,13 +183,45 @@ def tab_two(request):
         return HttpResponseRedirect('/thanks/')
 
 
-def tab2(request):
-    return render(request, 'tab2.html')
+@login_required
+def tab_one_view(request):
+    user_tem = request.user.id  # Assuming `tem` correlates to User model's ID
+    forms = tab_one_model.objects.filter(
+        tem=user_tem).values_list('id', flat=True)
 
+    if request.method == "POST":
+        action = request.POST.get('action')
+        if action == 'delete':
+            form_id = request.POST.get('form_id')
+            tab_one_model.objects.filter(id=form_id, tem=user_tem).delete()
+            # Redirects to the same view to refresh the page
+            return redirect('tab_one')
 
-# class HelloView(APIView):
-#     permission_classes = (IsAuthenticated)
+        # elif action == 'edit':
+        #     # Logic to handle form editing
+        #     form_id = request.POST.get('form_id')
+        #     tab_one_model.objects.filter(id=form_id, tem=user_tem)
+        #     return redirect('tab_one')
 
-#     def get(self):
-#         content = {'message': 'Hello, Sachin'}
-#         return Response(content)
+        elif action == 'new' or action == 'cancel':
+            # Logic to clear the form or prepare a new form
+            return redirect('tab_one')
+
+    if request.method == "GET":
+        action = request.POST.get('action')
+        if action == 'edit':
+            # Logic to handle form editing
+            form_id = request.POST.get('form_id')
+            tab_one_model.objects.filter(id=form_id, tem=user_tem)
+            return redirect('tab_one')
+        # Logic to handle GET request
+    else:
+        # Logic to handle other request methods
+        # ...
+        messages.error(request, "I cant fetch  the data. Please try again.")
+        return redirect('tab1')
+
+    context = {
+        'forms': forms,
+    }
+    return render(request, 'tab1.html', context)
