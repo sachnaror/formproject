@@ -4,17 +4,20 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.db.models import Q
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect, render  # Replace with your actual model
 
 from .models import User, tab_one_model
 
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
 
-
-# from django.views.decorators.csrf import csrf_exempt
+def get_name_suggestions(request):
+    if 'term' in request.GET:
+        qs = tab_one_model.objects.filter(
+            name__icontains=request.GET.get('term'))
+        names = list(qs.values_list('name', flat=True))
+        return JsonResponse(names, safe=False)
+    return JsonResponse([], safe=False)
 
 
 def register(request):
@@ -28,6 +31,10 @@ def register(request):
         return redirect('tab2')  # Redirect to a success page
 
     return render(request, 'register.html')
+
+
+def tab2(request):
+    return render(request, 'tab2.html')
 
 
 def tab1(request):
@@ -146,15 +153,3 @@ def tab_two(request):
     else:
         # Redirect to a different page
         return HttpResponseRedirect('/thanks/')
-
-
-def tab2(request):
-    return render(request, 'tab2.html')
-
-
-# class HelloView(APIView):
-#     permission_classes = (IsAuthenticated)
-
-#     def get(self):
-#         content = {'message': 'Hello, Sachin'}
-#         return Response(content)

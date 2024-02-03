@@ -78,11 +78,18 @@
                     </div> <!-- Additional Fields -->
                     <div class="mb-5">
                         <div class="d-flex gap-3 align-items-center">
-                            <!-- City Search Field -->
-                            <div>
 
-                                <p class="fw-bolder">City search (filled above)</p> <input type="urdl" name="citysearch" class="form-control width-200 border-radius" id="iazxsggdd" placeholder="citydsearch" />
-                            </div> <!-- Website Field -->
+                            <!-- Name Search Field -->
+
+
+                            <div>
+                                <p class="fw-bolder">Name search (filled above)</p>
+                                <input type="text" name="namesearch" class="form-control width-200 border-radius" id="iazxsggdd" placeholder="type name here" autocomplete="off"/>
+                                <div id="nameSuggestions" class="suggestions-dropdown"></div> <!-- Container for suggestions -->
+                            </div>
+
+
+                            <!-- Website Field -->
                             <div>
                                 <p class="fw-bolder">Website name</p>
                                  <input type="text" name="webs" class="form-control width-200 border-radius" id="i34d" placeholder="Website" />
