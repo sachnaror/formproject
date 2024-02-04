@@ -139,19 +139,18 @@ def edit_tab_one(request):
     if (request.method == 'GET'):
         user_id = request.session.get('id')
         user_email = request.session.get('email')
+        print("insdie get 1")
         digit = request.GET.get('digit')
-        formdata = tab_one_model.objects.get(digit=digit)
+        print("insdie get 2")
+        formdata = tab_one_model.objects.get(id=digit)
+        print("insdie get 3")
         formdata = model_to_dict(formdata)
-        count = tab_one_model.objects.filter(user_id=user_id).count()
-        count = count+1
-        temp = []
-        for i in range(1, count):
-            temp.append(i)
+        temp = tab_one_model.objects.filter(user_id=user_id)
+        id_list = [a.id for a in temp]
         context = dict()
         context['user_id'] = user_id
         context['user_email'] = user_email
-        context['count'] = digit
-        context['temp'] = temp
+        context['temp'] = id_list
         context['formdata'] = formdata
         return render(request, 'tab1.html', context)
 
