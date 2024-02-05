@@ -50,9 +50,9 @@ INSTALLED_APPS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nine',
-        'USER': 'root',
-        'PASSWORD': 'mastersoon',
+        'NAME': 'form1',
+        'USER': 'mona',
+        'PASSWORD': 'lisa',
         'HOST': 'localhost',
         'PORT': '3306',
     }
