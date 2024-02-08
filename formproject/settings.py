@@ -2,6 +2,7 @@
 from datetime import timedelta
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'form1',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.github',
+
     # 'django_countries'
     # 'whitenoise',
     # 'bootstrap5',
@@ -67,6 +75,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     # 'django.contrib.auth.models.User',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+    # 'allauth.account.auth_backends.AuthenticationBackend'
 
     # 'whitenoise.middleware.WhiteNoiseMiddleware',
 
@@ -141,3 +151,41 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'APP': {
+            'client_id': '794817817498-h76pesuguuoccn8r89u5jq4onp5cq7di.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    },
+    # 'facebook': {
+    #     'METHOD': 'oauth2',
+    #     'SCOPE': ['email', 'public_profile'],
+    #     'APP': {
+    #         'client_id': 'YOUR_APP_ID',
+    #         'secret': 'YOUR_APP_SECRET',
+    #     }
+    # },
+    # 'github': {
+    #     'METHOD': 'oauth2',
+    #     'SCOPE': ['user:email'],
+    #     'APP': {
+    #         'client_id': 'YOUR_CLIENT_ID',
+    #         'secret': 'YOUR_CLIENT_SECRET',
+    #     }
+    # }
+}

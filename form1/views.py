@@ -136,14 +136,21 @@ def edit_tab_one(request):
         tab_one_model.objects.filter(digit=digit).update(digit=digit, user_id=user_id, name=name, country=country, city=city,
                                                          color=color, ratings=ratings, date=date, website=website, describe=describe, check1=check1, check2=check2, check3=check3)
         return redirect('thanks')
+
+
     if (request.method == 'GET'):
+
         user_id = request.session.get('id')
         user_email = request.session.get('email')
+
         print("insdie get 1")
+
         digit = request.GET.get('digit')
         print("insdie get 2")
+
         formdata = tab_one_model.objects.get(id=digit)
         print("insdie get 3")
+
         formdata = model_to_dict(formdata)
         temp = tab_one_model.objects.filter(user_id=user_id)
         id_list = [a.id for a in temp]
@@ -152,6 +159,7 @@ def edit_tab_one(request):
         context['user_email'] = user_email
         context['temp'] = id_list
         context['formdata'] = formdata
+
         return render(request, 'tab1.html', context)
 
 
