@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>bootstrap-forms</title>
+</head>
+
+
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Navigation Bar -->
+        <nav class="bg-blue-100 fs-6 nav-padding py-3">
+            {{ user_email }} (GH: {{ user_id }})
+            <a href="{% url 'register' %}" class="btn btn-outline-secondary bg-red fw-bolder ms-auto logout">Logout</a>
+        </nav>
+
+
+    <div class="grid mb-5">
+        <div class="width-10">
+            <div class="border-custom tab-custom-style p-4">
+                <div role="button" class="mb-2 tab-active cursor-pointer">Tab 1</div>
+                <div role="button" class="mb-2 tab-normal">Tab 2</div>
+                <div role="button" class="tab-normal">Tab 3</div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="width-30">
+            <div class="d-flex justify-content-between">
+                <div class="dropdown d-inline">
+                    <button class="btn btn-outline-secondary dropdown-toggle custom-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Field Type
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="dropdown d-inline">
+                        <button class="btn btn-outline-secondary dropdown-toggle custom-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select ID
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary bg-blue-200 font-weight-bold fw-bolder">
+                        Fetch
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary bg-yellow font-weight-bold fw-bolder">
+                        Get
+                    </button>
+                </div>
+            </div>
+            <div class="mt-4 border-custom p-4 pb-5">
+                <div style="margin-bottom: 100px">
+                    <p class="fw-bolder m-0">Form ID</p>
+                    <p>23</p>
+                </div>
+                <div style="margin-bottom: 120px">
+                    <p class="fw-bolder m-0">Your name</p>
+                    <span class="me-5">First name</span>
+                    <span>Last name</span>
+                </div>
+
+                <div style="margin-bottom: 100px">
+                    <p class="fw-bolder m-0">City</p>
+                    <p>City name</p>
+                </div>
+                <div style="margin-bottom: 100px">
+                    <p class="fw-bolder m-0">Star Rating</p>
+                    <p>2/5</p>
+                </div>
+                <div class="mt-4 d-flex gap-5" style="margin-bottom: 100px">
+                    <div>
+                        <p class="fw-bolder m-0">Radio</p>
+                        <p>lorem</p>
+                    </div>
+                    <div>
+                        <p class="fw-bolder m-0">Checkbox</p>
+                        <p>lorem, lorem ,lorem</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 120px">
+                    <p class="fw-bolder m-0">Description</p>
+                    <p>lorem</p>
+                </div>
+
+                <div class="mt-4 d-flex gap-5" style="margin-bottom: 100px">
+                    <div>
+                        <p class="fw-bolder m-0">Website</p>
+                        <p>lore</p>
+                    </div>
+                    <div>
+                        <p class="fw-bolder m-0">Website name</p>
+                        <p>lorem, lorem ,lorem</p>
+                    </div>
+                </div>
+                <div class="mt-4 d-flex gap-5" style="margin-bottom: 80px">
+                    <div>
+                        <p class="fw-bolder m-0">Website Search</p>
+                        <p>lore</p>
+                    </div>
+                    <div>
+                        <p class="fw-bolder m-0">Date</p>
+                        <p>lorem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>

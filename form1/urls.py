@@ -13,6 +13,7 @@ urlpatterns = [
     path('tab1/edit/', views.edit_tab_one),
     path('tab1/edit/edit', views.edit_tab_one),
     path('tab2/', views.tab2, name='tab2'),
+    path('tab3/', views.tab3, name='tab3'),
     path('thanks/', views.thanks, name='thanks'),
     path('form1/', views.register, name='register'),
     path('form1/register/', views.register, name='register'),

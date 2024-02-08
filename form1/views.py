@@ -187,9 +187,30 @@ def tab_two(request):
         return HttpResponseRedirect('/thanks/')
 
 
+def tab_two(request):
+    # Handle POST request
+    if request.method == 'POST':
+        user_id = request.session.get('id')
+        user_email = request.session.get('email')
+
+        context = {
+            'user_id': user_id,
+            'user_email': user_email
+        }
+
+        return render(request, 'tab2.html', context)
+
+    # Handle GET or other request methods
+    else:
+        # Redirect to a different page
+        return HttpResponseRedirect('/thanks/')
+
+
 def tab2(request):
     return render(request, 'tab2.html')
 
+def tab3(request):
+    return render(request, 'tab3.html')
 
 # class HelloView(APIView):
 #     permission_classes = (IsAuthenticated)
